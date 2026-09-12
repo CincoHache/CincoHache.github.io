@@ -1,0 +1,51 @@
+{%- comment -%}
+  El bloque de fuentes del artículo.
+
+  Va plegado: quien solo quiere leer no tropieza con él, y quien quiere
+  comprobar de dónde sale cada dato lo abre de un clic. Se construye con
+  <details>, así que funciona sin JavaScript y el navegador se encarga de
+  la accesibilidad; al imprimir sale siempre abierto.
+
+  Los datos vienen del front matter, que escribe la herramienta a partir
+  del apartado «Fuentes» del documento de Google Docs:
+
+    fuentes:
+      - cita:  "La cifra de 40.000 viajeros diarios"
+        donde: "Informe anual de Renfe, 2025"
+        url:   "https://..."
+
+  `donde` y `url` son opcionales. Sin `url` la fuente se lista igual,
+  sin enlace: una fuente en papel también es una fuente.
+{%- endcomment -%}
+
+{%- assign _fuentes = include.fuentes | default: page.fuentes -%}
+{%- if _fuentes and _fuentes.size > 0 %}
+<details class="fuentes" id="fuentes">
+  <summary class="fuentes__resumen">
+    <span class="fuentes__izquierda">
+      <span>Fuentes</span>
+      <span class="fuentes__cuenta">{{ _fuentes.size }}</span>
+    </span>
+    <span class="fuentes__signo" aria-hidden="true"></span>
+  </summary>
+
+  <ol class="fuentes__lista">
+    {%- for f in _fuentes %}
+    {%- assign _n = forloop.index -%}
+    <li class="fuente" id="fuente-{{ _n }}">
+      <span class="fuente__n">{{ _n }}</span>
+      <span class="fuente__cuerpo">
+        {%- if f.url and f.url != "" %}
+        <a class="fuente__cita" href="{{ f.url }}" rel="noopener">{{ f.cita }}</a>
+        {%- else %}
+        <span class="fuente__cita">{{ f.cita }}</span>
+        {%- endif %}
+        {%- if f.donde and f.donde != "" %}
+        <span class="fuente__donde">{{ f.donde }}</span>
+        {%- endif %}
+      </span>
+    </li>
+    {%- endfor %}
+  </ol>
+</details>
+{%- endif %}

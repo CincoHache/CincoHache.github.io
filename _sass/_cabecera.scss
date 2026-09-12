@@ -1,0 +1,233 @@
+// Cabecera: marca, navegación, buscar y el interruptor de tema.
+
+.saltar {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: var(--e-3) var(--e-4);
+  background: var(--acento-masa);
+  color: var(--sobre-acento);
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+
+  &:focus { left: var(--margen); top: var(--e-2); }
+}
+
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--fondo-velo);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--linea);
+}
+
+.cabecera__interior {
+  max-width: var(--ancho-sitio);
+  margin-inline: auto;
+  padding: var(--e-2) var(--margen);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-2) var(--e-5);
+  flex-wrap: wrap;
+}
+
+/* --- Marca ------------------------------------------------------ */
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  min-width: 0;
+}
+
+/* El disco manda: es lo primero que identifica al sitio.
+   Va de fondo y no como <img> para poder cambiar de versión con el tema
+   sin descargar las dos. */
+.marca__disco {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  background-image: url("/assets/img/marca/5h-logo-512.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform var(--t-medio) var(--curva);
+}
+
+/* En claro, la versión clara del logotipo. Nunca la oscura invertida. */
+:root[data-tema="claro"] .marca__disco {
+  background-image: url("/assets/img/marca/5h-logo-claro-512.png");
+}
+
+.marca:hover .marca__disco { transform: translate(-1.5px, -1.5px); }
+
+.marca__nombre {
+  font-family: var(--f-titular);
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--tinta);
+}
+
+/* --- Navegación ------------------------------------------------- */
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.625rem, 2.2vw, 1.625rem);
+  flex-wrap: wrap;
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--suave);
+  margin: 0;
+}
+
+.menu__enlace {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  min-height: 44px;
+  color: var(--suave);
+  transition: color var(--t-rapido) var(--curva);
+
+  &:hover { color: var(--acento); }
+}
+
+/* El punto marca dónde estás. Es lo que el canvas usa en vez de subrayar. */
+.menu__punto {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--acento);
+  display: block;
+  flex: none;
+}
+
+.menu__enlace--activo { color: var(--tinta); }
+
+/* --- Buscar y tema ---------------------------------------------- */
+
+.icono-boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5625rem;
+  min-height: 44px;
+  min-width: 44px;
+  color: var(--suave);
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color var(--t-rapido) var(--curva);
+
+  &:hover { color: var(--acento); }
+}
+
+.icono-boton__texto { color: var(--tenue); }
+
+.icono-boton:hover .icono-boton__texto { color: inherit; }
+
+/* Lupa dibujada con dos cajas: sin SVG externo y sin fuente de iconos. */
+.lupa {
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 15px;
+  flex: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 11px; height: 11px;
+    border: 1.4px solid currentColor;
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 1px; right: 0;
+    width: 6px; height: 1.4px;
+    background: currentColor;
+    transform: rotate(45deg);
+    transform-origin: right center;
+  }
+}
+
+/* Luna en el tema oscuro, sol en el claro. */
+.tema__luna,
+.tema__sol { display: none; }
+
+:root:not([data-tema="claro"]) .tema__luna { display: block; }
+:root[data-tema="claro"] .tema__sol { display: block; }
+
+.tema__luna {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -4px; right: -5px;
+    width: 13px; height: 13px;
+    border-radius: 50%;
+    background: var(--fondo);
+  }
+}
+
+.tema__sol {
+  position: relative;
+  width: 15px;
+  height: 15px;
+
+  span {
+    position: absolute;
+    background: currentColor;
+    display: block;
+  }
+
+  .tema__nucleo {
+    top: 3.5px; left: 3.5px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  .tema__rayo--n { top: 0;    left: 7px; width: 1.5px; height: 3px; }
+  .tema__rayo--s { bottom: 0; left: 7px; width: 1.5px; height: 3px; }
+  .tema__rayo--o { left: 0;   top: 7px;  width: 3px; height: 1.5px; }
+  .tema__rayo--e { right: 0;  top: 7px;  width: 3px; height: 1.5px; }
+}
+
+/* --- Estrecho --------------------------------------------------- */
+
+@media (max-width: 44rem) {
+  .cabecera__interior { justify-content: center; }
+  .marca { margin-right: auto; }
+  .marca__disco { width: 46px; height: 46px; }
+  .marca__nombre { font-size: 1.4rem; }
+  .menu {
+    flex-basis: 100%;
+    justify-content: space-between;
+    gap: var(--e-2);
+    border-top: 1px solid var(--linea);
+  }
+  .icono-boton__texto { display: none; }
+}
+
+@media (max-width: 26rem) {
+  .marca__nombre { display: none; }
+}

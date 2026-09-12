@@ -1,0 +1,22 @@
+# Dentro del repositorio, todo el texto va con finales de línea LF.
+# Windows los convierte a CRLF al sacarlos y de vuelta al guardarlos, así que
+# no cambia nada al editar; lo que se evita es que un cambio de sistema
+# operativo marque el archivo entero como modificado, y que los servidores de
+# GitHub —que son Linux— reciban retornos de carro que no esperan.
+* text=auto eol=lf
+
+# Binarios: que Git no los toque.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.gif  binary
+*.ico  binary
+*.woff2 binary
+*.docx binary
+*.pdf  binary
+*.exe  binary
+
+# Para que GitHub no cuente el blog como «CSS» o «JavaScript» en la barra
+# de lenguajes: es un sitio, no una biblioteca.
+assets/fonts/** linguist-vendored

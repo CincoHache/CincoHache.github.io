@@ -1,0 +1,81 @@
+// ─────────────────────────────────────────────────────────────
+//  Tipografía
+//
+//  Cuatro familias, cada una con un trabajo y sin solaparse:
+//
+//    Grenze      Titulares, marca y capitulares. Gótica de trazo
+//                moderno: es el puente con el 5H del logotipo.
+//    Spectral    El cuerpo de los textos y todo lo que se lee
+//                seguido. Serif de pantalla, con cursiva de verdad.
+//    Bricolage   La interfaz: títulos de listado, tarjetas, botones.
+//    Plex Mono   Rótulos, fechas, cifras y metadatos. Es lo que da
+//                el aire de ficha técnica que tiene el sitio.
+//
+//  Los @font-face están en _fuentes.scss, que se genera solo.
+// ─────────────────────────────────────────────────────────────
+
+:root {
+  --f-titular:  "CH Titular", "Grenze", "Iowan Old Style", Georgia, serif;
+  --f-texto:    "CH Texto", "Spectral", Georgia, "Times New Roman", serif;
+  --f-ui:       "CH Interfaz", "Bricolage Grotesque", ui-sans-serif,
+                system-ui, "Segoe UI", sans-serif;
+  --f-mono:     "CH Mono", "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+  /* --- Escala. Los valores salen del canvas, en rem para que
+         respete el tamaño de letra que tenga puesto el lector. --- */
+
+  --t-rotulo:   0.6875rem;                                  /* 11px */
+  --t-rotulo-s: 0.625rem;                                   /* 10px */
+  --t-meta:     0.71875rem;                                 /* 11.5px */
+  --t-pie:      0.8125rem;
+  --t-base:     clamp(1.09375rem, 1.02rem + 0.36vw, 1.28125rem);
+  --t-resumen:  0.96875rem;
+  --t-guia:     clamp(1.125rem, 1.03rem + 0.45vw, 1.4375rem);
+  --t-h3:       1.1875rem;
+  --t-h2:       clamp(1.625rem, 1.42rem + 0.9vw, 2.0625rem);
+  --t-h1:       clamp(2.25rem, 1.6rem + 3.2vw, 4.5rem);
+  --t-titulo-fila: clamp(1.3125rem, 1.12rem + 0.85vw, 1.875rem);
+  --t-apertura: clamp(2.5rem, 1.5rem + 4.8vw, 6.125rem);
+  --t-capitular: clamp(5.25rem, 2.6rem + 7.2vw, 7rem);
+
+  --interlinea-texto: 1.72;
+  --interlinea-titular: 0.98;
+}
+
+body {
+  font-family: var(--f-ui);
+  font-size: 1rem;
+  line-height: 1.55;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-optical-sizing: auto;
+}
+
+/* Titulares de artículo y de página: Grenze. Los títulos de listado y
+   de tarjeta NO: van en Bricolage, y ese contraste es del diseño. */
+h1, .titular {
+  font-family: var(--f-titular);
+  font-weight: 400;
+  line-height: var(--interlinea-titular);
+  letter-spacing: -0.012em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h2, h3, h4 { margin: 0; }
+
+/* Rótulo: sección, fecha, minutos de lectura, cabeceras de bloque.
+   Versalita falsa en monoespaciada; es la voz de ficha del sitio.
+   Los parciales repiten estas líneas: con @use, @extend no cruza módulos. */
+.rotulo {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+time, .cifra, .meta__dato { font-variant-numeric: tabular-nums; }

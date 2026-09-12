@@ -1,0 +1,82 @@
+{%- assign _n = site.posts | size -%}
+{%- assign _primera = site.posts | last -%}
+{%- assign _ultima = site.posts | first -%}
+{%- comment -%}
+  Liquid no admite filtros dentro de la condición de un `if`, así que los
+  años se calculan antes y se comparan ya hechos.
+{%- endcomment -%}
+{%- assign _anio_primero = _primera.date | date: "%Y" -%}
+{%- assign _anio_ultimo = _ultima.date | date: "%Y" -%}
+
+<footer class="pie" role="contentinfo">
+  <div class="pie__interior">
+
+    <div class="pie__fila">
+
+      <div class="pie__bloque">
+        <span class="pie__marca">{{ site.title }}</span>
+        <p class="pie__descripcion">{{ site.description | strip_newlines | strip }}</p>
+      </div>
+
+      <div class="pie__bloque">
+        <span class="pie__rotulo">Explorar el archivo</span>
+        <a class="pie__archivo" href="{{ '/trabajos/' | relative_url }}">
+          {%- if _n > 0 -%}
+            {{ _n }} {% if _n == 1 %}texto{% else %}textos{% endif %},
+            {{ _anio_primero }}
+            {%- unless _anio_primero == _anio_ultimo %} — {{ _anio_ultimo }}{% endunless %} →
+          {%- else -%}
+            Todavía no hay nada →
+          {%- endif -%}
+        </a>
+        <nav class="pildoras" aria-label="Secciones">
+          {%- for s in site.data.secciones %}
+          <a class="pildora" href="{{ s.url | relative_url }}">{{ s.plural }}</a>
+          {%- endfor %}
+          <a class="pildora" href="{{ '/acerca/' | relative_url }}">Sobre mí</a>
+        </nav>
+      </div>
+
+    </div>
+
+    <div class="pie__bloque">
+      <span class="pie__rotulo">Seguir el blog</span>
+      <div class="pie__redes">
+        <a class="pie__red" href="{{ '/feed.xml' | relative_url }}">
+          <span>RSS</span><span aria-hidden="true">↗</span>
+        </a>
+        {%- if site.redes.github and site.redes.github != "" %}
+        <a class="pie__red" rel="me noopener" href="https://github.com/{{ site.redes.github }}">
+          <span>GitHub</span><span aria-hidden="true">↗</span>
+        </a>
+        {%- endif %}
+        {%- if site.redes.instagram and site.redes.instagram != "" %}
+        <a class="pie__red" rel="me noopener" href="https://instagram.com/{{ site.redes.instagram }}">
+          <span>Instagram</span><span aria-hidden="true">↗</span>
+        </a>
+        {%- endif %}
+        {%- if site.redes.bluesky and site.redes.bluesky != "" %}
+        <a class="pie__red" rel="me noopener" href="https://bsky.app/profile/{{ site.redes.bluesky }}">
+          <span>Bluesky</span><span aria-hidden="true">↗</span>
+        </a>
+        {%- endif %}
+        {%- if site.redes.mastodon and site.redes.mastodon != "" %}
+        <a class="pie__red" rel="me noopener" href="{{ site.redes.mastodon }}">
+          <span>Mastodon</span><span aria-hidden="true">↗</span>
+        </a>
+        {%- endif %}
+        {%- if site.author.email and site.author.email != "" %}
+        <a class="pie__red" href="mailto:{{ site.author.email }}">
+          <span>Correo</span><span aria-hidden="true">↗</span>
+        </a>
+        {%- endif %}
+      </div>
+    </div>
+
+    <div class="pie__legal">
+      <span>© {{ 'now' | date: "%Y" }} {{ site.author.name }}</span>
+      <span>Sin rastreadores, sin cookies, sin anuncios</span>
+    </div>
+
+  </div>
+</footer>

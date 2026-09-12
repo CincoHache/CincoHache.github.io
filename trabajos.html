@@ -1,0 +1,57 @@
+---
+layout: default
+title: Trabajos
+permalink: /trabajos/
+description: Todo lo publicado en Cinco Hache, con buscador y filtros por sección.
+---
+{%- assign _total = site.posts | size -%}
+
+<div class="trabajos envoltura">
+
+  <div class="trabajos__cabecera">
+    <div class="trabajos__fila-titulo">
+      <h1 class="trabajos__titular titular">Trabajos</h1>
+      <span class="trabajos__cuenta" id="cuenta-resultados">
+        {{ _total }} {% if _total == 1 %}resultado{% else %}resultados{% endif %}
+      </span>
+    </div>
+
+    <div class="mandos">
+      <div class="buscador">
+        <span class="lupa buscador__lupa" aria-hidden="true"></span>
+        <label class="visualmente-oculto" for="buscar">Buscar en el archivo</label>
+        <input class="buscador__campo" type="search" id="buscar" name="buscar"
+               placeholder="Buscar por título, tema o año…" autocomplete="off">
+        <button class="buscador__limpiar" type="button" id="limpiar-busqueda" hidden
+                aria-label="Limpiar la búsqueda">✕</button>
+      </div>
+
+      <div class="filtros">
+        {%- for s in site.data.secciones %}
+        <button class="filtro" type="button" data-filtro="{{ s.id }}" aria-pressed="false">{{ s.plural }}</button>
+        {%- endfor %}
+      </div>
+    </div>
+
+    <div class="aviso-filtro" id="aviso-filtro" hidden>
+      <span id="aviso-filtro-texto"></span>
+      <button type="button" id="quitar-filtros">Quitar filtros ✕</button>
+    </div>
+  </div>
+
+  <div class="archivo-lista">
+    {%- for e in site.posts %}
+      {%- include fila-archivo.html entrada=e -%}
+    {%- endfor %}
+
+    <div class="sin-resultados" id="sin-resultados" hidden>
+      <span class="sin-resultados__titulo">Nada por aquí todavía.</span>
+      <span class="sin-resultados__pista">Prueba con «ciudad», «atención» o «2026».</span>
+    </div>
+
+    {%- if _total == 0 %}
+    <p class="vacio">{{ site.data.es.textos.sin_entradas }}</p>
+    {%- endif %}
+  </div>
+
+</div>

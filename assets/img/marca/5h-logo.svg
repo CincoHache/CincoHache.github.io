@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Cinco Hache">
+  <title>Cinco Hache — 5H</title>
+  <desc>Marca 5H. 5 en UnifrakturMaguntia, H capital en Pirata One, eco diagonal de cinco capas a 16,7 px. Para impresión y para independizarlo de las fuentes, convertir los textos a curvas en Illustrator o Figma.</desc>
+  
+  <circle cx="256" cy="256" r="256" fill="#0f0e0d"></circle>
+  <g clip-path="url(#disco)">
+    <g transform="translate(33.4 27.39)">
+      <text x="256" y="315" text-anchor="middle" fill="#5e1214" stroke="#5e1214" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+    <g transform="translate(16.7 13.69)">
+      <text x="256" y="315" text-anchor="middle" fill="#891a1a" stroke="#891a1a" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+    <g transform="translate(0 0)">
+      <text x="256" y="315" text-anchor="middle" fill="#b2372c" stroke="#b2372c" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+    <g transform="translate(-16.7 -13.69)">
+      <text x="256" y="315" text-anchor="middle" fill="#c8544c" stroke="#c8544c" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+    <g transform="translate(-33.4 -27.39)">
+      <text x="256" y="315" text-anchor="middle" fill="#f2eee6" stroke="#f2eee6" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+  </g>
+  <clipPath id="disco"><circle cx="256" cy="256" r="256"></circle></clipPath>
+</svg>

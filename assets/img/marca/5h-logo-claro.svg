@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Cinco Hache">
+  <title>Cinco Hache — 5H</title>
+  <desc>Marca 5H. 5 en UnifrakturMaguntia, H capital en Pirata One, eco diagonal de cinco capas a 16,7 px. Para impresión y para independizarlo de las fuentes, convertir los textos a curvas en Illustrator o Figma.</desc>
+  
+  <circle cx="256" cy="256" r="256" fill="#f1ede3"></circle>
+  <g clip-path="url(#disco)">
+    <g transform="translate(22.4 18.37)">
+      <text x="256" y="315" text-anchor="middle" fill="#e9bdb5" stroke="#e9bdb5" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+    <g transform="translate(0 0)">
+      <text x="256" y="315" text-anchor="middle" fill="#dfa79e" stroke="#dfa79e" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+    <g transform="translate(-22.4 -18.37)">
+      <text x="256" y="315" text-anchor="middle" fill="#14120f" stroke="#14120f" stroke-width="1.85" paint-order="stroke fill" style="paint-order:stroke fill"><tspan class="cinco">5</tspan><tspan class="hache" dx="6.95">H</tspan></text>
+    </g>
+  </g>
+  <clipPath id="disco"><circle cx="256" cy="256" r="256"></circle></clipPath>
+</svg>

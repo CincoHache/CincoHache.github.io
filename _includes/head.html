@@ -1,0 +1,49 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{%- comment -%}
+  El tema se aplica antes de pintar nada. Si esperase al final del documento,
+  quien tuviera elegido el claro vería un fogonazo oscuro en cada página.
+{%- endcomment -%}
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("ch-tema");
+      if (t === "claro" || t === "oscuro") {
+        document.documentElement.setAttribute("data-tema", t);
+      }
+    } catch (e) { /* navegación privada: se queda el oscuro */ }
+  })();
+</script>
+
+<meta name="theme-color" content="#0F0E0D" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F1EDE3" media="(prefers-color-scheme: light)">
+
+{%- comment -%} Título, descripción, canónica, Open Graph y JSON-LD {%- endcomment -%}
+{%- seo -%}
+
+{%- if page.noindex %}
+<meta name="robots" content="noindex, follow">
+{%- endif %}
+
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="32x32">
+<link rel="icon" href="{{ '/assets/img/marca/5h-logo-512.png' | relative_url }}" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="{{ '/assets/img/marca/5h-logo-180.png' | relative_url }}">
+<link rel="manifest" href="{{ '/manifiesto.webmanifest' | relative_url }}">
+
+<link rel="alternate" type="application/atom+xml"
+      title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+<link rel="sitemap" type="application/xml" href="{{ '/sitemap.xml' | relative_url }}">
+
+{%- comment -%}
+  Solo se adelantan las dos caras que aparecen en todas las páginas por
+  encima del pliegue. Precargar las seis retrasaría lo que sí importa.
+{%- endcomment -%}
+<link rel="preload" href="{{ '/assets/img/marca/5h-logo-512.png' | relative_url }}"
+      as="image" fetchpriority="high">
+<link rel="preload" href="{{ '/assets/fonts/ch-titular.woff2' | relative_url }}"
+      as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/ch-texto.woff2' | relative_url }}"
+      as="font" type="font/woff2" crossorigin>
+
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">

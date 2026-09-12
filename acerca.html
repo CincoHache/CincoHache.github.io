@@ -1,0 +1,97 @@
+---
+layout: default
+title: Sobre mí
+permalink: /acerca/
+description: Quién escribe Cinco Hache, en qué trabaja y cómo dar con él.
+---
+{%- assign s = site.data.sobre -%}
+
+<div class="sobre envoltura">
+
+  <div class="sobre__cabecera">
+
+    <div class="sobre__columna">
+      <h1 class="sobre__titular titular">{{ s.titular }}</h1>
+
+      <div class="sobre__texto">
+        {%- for p in s.parrafos %}
+        <p>{{ p }}</p>
+        {%- endfor %}
+      </div>
+
+      <div class="sobre__acciones">
+        {%- if site.author.email and site.author.email != "" %}
+        <a class="boton" href="mailto:{{ site.author.email }}">Escríbeme</a>
+        {%- endif %}
+        <a class="boton boton--hueco" href="{{ '/trabajos/' | relative_url }}">Ver el archivo</a>
+      </div>
+
+      <div class="sobre__rss">
+        <a href="{{ '/feed.xml' | relative_url }}">Suscribirse por RSS</a>
+        <span class="sobre__rss-url">{{ '/feed.xml' | absolute_url | remove: "https://" }}</span>
+      </div>
+    </div>
+
+    <div class="sobre__retrato">
+      <div class="sobre__retrato-marco hueco">
+        {%- if s.retrato and s.retrato != "" %}
+        <img src="{{ s.retrato | relative_url }}" alt="{{ site.author.name }}">
+        {%- else %}
+        <span class="hueco__nota">Retrato 4:5</span>
+        {%- endif %}
+      </div>
+      {%- if s.retrato_nota %}
+      <span class="nota-tenue">{{ s.retrato_nota }}</span>
+      {%- endif %}
+    </div>
+
+  </div>
+
+  <div class="sobre__rejilla">
+
+    {%- if s.ahora and s.ahora.size > 0 %}
+    <div class="sobre__bloque">
+      <span class="sobre__rotulo">Ahora mismo</span>
+      <div class="sobre__ahora">
+        {%- for linea in s.ahora %}
+        <span>{{ linea }}</span>
+        {%- endfor %}
+      </div>
+    </div>
+    {%- endif %}
+
+    {%- if s.servicios and s.servicios.size > 0 %}
+    <div class="sobre__bloque">
+      <span class="sobre__rotulo">Servicios</span>
+      <div class="lista-numerada">
+        {%- for x in s.servicios %}
+        <span class="lista-numerada__fila">
+          <span>{{ x }}</span>
+          <span>{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+        </span>
+        {%- endfor %}
+      </div>
+    </div>
+    {%- endif %}
+
+    <div class="sobre__bloque">
+      <span class="sobre__rotulo">Dónde encontrarme</span>
+      <div class="lista-contacto">
+        {%- if site.author.email and site.author.email != "" %}
+        <a href="mailto:{{ site.author.email }}"><span>Correo</span><span>{{ site.author.email }}</span></a>
+        {%- endif %}
+        {%- if site.redes.github and site.redes.github != "" %}
+        <a rel="me noopener" href="https://github.com/{{ site.redes.github }}"><span>GitHub</span><span>{{ site.redes.github }}</span></a>
+        {%- endif %}
+        {%- if site.redes.instagram and site.redes.instagram != "" %}
+        <a rel="me noopener" href="https://instagram.com/{{ site.redes.instagram }}"><span>Instagram</span><span>{{ site.redes.instagram }}</span></a>
+        {%- endif %}
+        {%- if site.redes.bluesky and site.redes.bluesky != "" %}
+        <a rel="me noopener" href="https://bsky.app/profile/{{ site.redes.bluesky }}"><span>Bluesky</span><span>{{ site.redes.bluesky }}</span></a>
+        {%- endif %}
+        <a href="{{ '/feed.xml' | relative_url }}"><span>RSS</span><span>/feed.xml</span></a>
+      </div>
+    </div>
+
+  </div>
+</div>

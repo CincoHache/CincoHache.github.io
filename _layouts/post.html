@@ -1,0 +1,188 @@
+---
+layout: default
+---
+{%- comment -%}
+  El artículo.
+
+  La apertura se elige en el front matter con `apertura:`, y hay cuatro:
+
+    ninguna   solo texto. Lo normal en una nota breve o una opinión.
+    plana     la foto en panorámico, debajo del titular. La más segura.
+    mezcla    el titular atraviesa la foto en modo diferencia. Pide una
+              imagen monocroma y contrastada; con una foto plana no se lee.
+    sangre    la foto de borde a borde con el titular encima y un velo.
+              Para fotoreportajes y piezas donde manda la imagen.
+
+  Sin `imagen_portada` cualquiera de las tres últimas cae en `ninguna`.
+{%- endcomment -%}
+
+{%- assign _sid = page.categoria | default: "otros" -%}
+{%- assign _s = site.data.secciones | where: "id", _sid | first -%}
+{%- assign _apertura = page.apertura | default: "plana" -%}
+{%- unless page.imagen_portada %}{% assign _apertura = "ninguna" %}{% endunless -%}
+
+<article class="articulo envoltura" itemscope itemtype="https://schema.org/Article">
+
+  {%- if _apertura == "sangre" %}
+
+  <div class="apertura-sangre">
+    <img src="{{ page.imagen_portada | relative_url }}"
+         alt="{{ page.imagen_portada_alt | default: '' | escape }}"
+         fetchpriority="high" decoding="async">
+    <div class="apertura-sangre__velo" aria-hidden="true"></div>
+    <div class="apertura-sangre__texto">
+      <p class="sello">{%- include sello.html entrada=page numero=true -%}</p>
+      <h1 class="articulo__titular titular" itemprop="headline">{{ page.title }}</h1>
+      {%- if page.subtitle %}
+      <p class="articulo__entradilla" itemprop="description">{{ page.subtitle }}</p>
+      {%- endif %}
+    </div>
+  </div>
+
+  {%- else %}
+
+  <header class="articulo__cabecera">
+    <p class="sello">
+      {%- include sello.html entrada=page numero=true -%}
+      <span class="sello__barra" aria-hidden="true">/</span>
+      <span class="sello__dato" itemprop="author">{{ page.autor | default: site.author.name }}</span>
+      <span class="sello__barra" aria-hidden="true">/</span>
+      <time class="sello__dato" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ page.date | date: "%d.%m.%Y" }}
+      </time>
+    </p>
+
+    {%- if _apertura != "mezcla" %}
+    <h1 class="articulo__titular titular" itemprop="headline">{{ page.title }}</h1>
+    {%- if page.subtitle %}
+    <p class="articulo__entradilla" itemprop="description">{{ page.subtitle }}</p>
+    {%- endif %}
+    {%- endif %}
+  </header>
+
+  {%- if _apertura == "plana" %}
+  <div class="apertura-plana">
+    <img src="{{ page.imagen_portada | relative_url }}"
+         alt="{{ page.imagen_portada_alt | default: '' | escape }}"
+         fetchpriority="high" decoding="async">
+  </div>
+  {%- elsif _apertura == "mezcla" %}
+  <div class="apertura-mezcla">
+    <div class="apertura-mezcla__foto">
+      <img src="{{ page.imagen_portada | relative_url }}"
+           alt="{{ page.imagen_portada_alt | default: '' | escape }}"
+           fetchpriority="high" decoding="async">
+    </div>
+    <div class="apertura-mezcla__texto">
+      <span class="apertura-mezcla__titular">{{ page.title }}</span>
+      {%- if page.subtitle %}
+      <span class="apertura-mezcla__entradilla">{{ page.subtitle }}</span>
+      {%- endif %}
+    </div>
+  </div>
+  {%- endif %}
+
+  {%- endif %}
+
+  {%- if _apertura == "sangre" %}
+  <p class="sello articulo__firma-sangre">
+    <span class="sello__dato">{{ page.autor | default: site.author.name }}</span>
+    <span class="sello__barra" aria-hidden="true">/</span>
+    <time class="sello__dato" datetime="{{ page.date | date_to_xmlschema }}">
+      {{ page.date | date: "%d.%m.%Y" }}
+    </time>
+    {%- if page.lugar %}
+    <span class="sello__barra" aria-hidden="true">/</span>
+    <span class="sello__seccion">{{ page.lugar }}</span>
+    {%- endif %}
+  </p>
+  {%- endif %}
+
+  <div class="articulo__cuerpo">
+
+    {%- include sumario.html contenido=content -%}
+
+    <div class="prosa{% if page.capitular == false %} prosa--sin-capitular{% endif %}"
+         lang="es" itemprop="articleBody">
+
+      {{ content }}
+
+      {%- include fuentes.html -%}
+
+      {%- if page.etiquetas and page.etiquetas.size > 0 %}
+      <nav class="etiquetas" aria-label="Etiquetas">
+        {%- for e in page.etiquetas %}
+        <a class="etiqueta" href="{{ '/trabajos/' | relative_url }}?q={{ e | url_encode }}">#{{ e }}</a>
+        {%- endfor %}
+      </nav>
+      {%- endif %}
+
+      {%- if page.nota %}
+      <p class="nota-tenue" style="padding-bottom:1.5rem">{{ page.nota }}</p>
+      {%- endif %}
+
+      <div class="ficha-autor">
+        <div class="ficha-autor__retrato">
+          {%- if site.author.retrato %}
+          <img src="{{ site.author.retrato | relative_url }}" alt="{{ site.author.name }}"
+               loading="lazy" width="76" height="76">
+          {%- endif %}
+        </div>
+        <div class="ficha-autor__cuerpo">
+          <span class="ficha-autor__nombre">{{ site.author.name }}</span>
+          <span class="ficha-autor__texto">{{ site.author.bio | default: site.description | strip_newlines | strip }}</span>
+          <a class="ficha-autor__enlace" href="{{ '/acerca/' | relative_url }}">Sobre mí →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+{%- comment -%}
+  Tres piezas más para seguir leyendo: primero de la misma sección, que es
+  lo que más probablemente interese, y se completa con lo más reciente.
+{%- endcomment -%}
+{%- assign _misma = site.posts | where: "categoria", _sid -%}
+{%- assign _ya = "|" | append: page.url | append: "|" -%}
+{%- assign _cuenta = 0 -%}
+{%- capture _piezas -%}
+  {%- for e in _misma -%}
+    {%- assign _k = "|" | append: e.url | append: "|" -%}
+    {%- unless _ya contains _k -%}
+      {%- if _cuenta < 3 -%}
+        {%- include pieza.html entrada=e -%}
+        {%- assign _ya = _ya | append: e.url | append: "|" -%}
+        {%- assign _cuenta = _cuenta | plus: 1 -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+  {%- for e in site.posts -%}
+    {%- assign _k = "|" | append: e.url | append: "|" -%}
+    {%- unless _ya contains _k -%}
+      {%- if _cuenta < 3 -%}
+        {%- include pieza.html entrada=e -%}
+        {%- assign _ya = _ya | append: e.url | append: "|" -%}
+        {%- assign _cuenta = _cuenta | plus: 1 -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if _cuenta > 0 %}
+<section class="sigue envoltura" aria-labelledby="rotulo-sigue">
+  <div class="bloque__cabecera">
+    <h2 class="bloque__titulo" id="rotulo-sigue">Sigue leyendo</h2>
+    <a class="bloque__enlace" href="{{ '/trabajos/' | relative_url }}">Todo el archivo →</a>
+  </div>
+  <div class="sigue__rejilla" style="margin-top:1.5rem">{{ _piezas }}</div>
+</section>
+{%- endif %}
+
+{%- if site.comentarios.activos %}
+<section class="comentarios envoltura" aria-labelledby="rotulo-comentarios">
+  <div class="bloque__cabecera">
+    <h2 class="bloque__titulo" id="rotulo-comentarios">Comentarios</h2>
+  </div>
+  <div class="comentarios__caja" id="comentarios"></div>
+</section>
+{%- endif %}

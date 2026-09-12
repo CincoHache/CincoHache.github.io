@@ -1,0 +1,139 @@
+// Pie de página.
+
+.pie {
+  flex: none;
+  margin-top: var(--e-9);
+  border-top: 1px solid var(--linea);
+  background: var(--fondo-2);
+}
+
+.pie__interior {
+  max-width: var(--ancho-sitio);
+  margin-inline: auto;
+  padding: clamp(1.75rem, 4vw, 3.25rem) var(--margen);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.625rem, 4vw, 2.75rem);
+}
+
+.pie__fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: clamp(1.375rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.pie__bloque { display: flex; flex-direction: column; gap: var(--e-3); }
+
+.pie__marca {
+  font-family: var(--f-titular);
+  font-size: 2.375rem;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+.pie__descripcion {
+  font-family: var(--f-texto);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--suave);
+  max-width: 30ch;
+}
+
+.pie__rotulo {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+/* El enlace grande al archivo: es la puerta principal del pie. */
+.pie__archivo {
+  font-family: var(--f-ui);
+  font-size: clamp(1.375rem, 1.15rem + 1.1vw, 1.875rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--tinta);
+  transition: color var(--t-rapido) var(--curva);
+
+  &:hover { color: var(--acento); }
+}
+
+/* --- Píldoras de sección --- */
+
+.pildoras {
+  display: flex;
+  gap: 0.4375rem;
+  flex-wrap: wrap;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pildora {
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-pildora);
+  padding: 0.375rem 0.75rem;
+  color: var(--suave);
+  transition: border-color var(--t-rapido) var(--curva),
+              color var(--t-rapido) var(--curva),
+              background var(--t-rapido) var(--curva);
+
+  &:hover { border-color: var(--acento); color: var(--acento); }
+}
+
+.pildora--activa {
+  background: var(--acento-masa);
+  border-color: var(--acento-masa);
+  color: var(--sobre-acento);
+
+  &:hover { background: var(--acento); border-color: var(--acento); color: var(--sobre-acento); }
+}
+
+/* --- Botones de redes --- */
+
+.pie__redes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.06em;
+}
+
+.pie__red {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--e-2);
+  min-width: 8.5rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 0.6875rem 0.8125rem;
+  transition: border-color var(--t-rapido) var(--curva),
+              color var(--t-rapido) var(--curva);
+
+  &:hover { border-color: var(--acento); color: var(--acento); }
+
+  span:last-child { color: var(--tenue); }
+}
+
+/* --- Línea legal --- */
+
+.pie__legal {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--e-4);
+  flex-wrap: wrap;
+  border-top: 1px solid var(--linea);
+  padding-top: 1.125rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}

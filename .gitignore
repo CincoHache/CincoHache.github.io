@@ -1,0 +1,11 @@
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+vendor/
+# Gemfile.lock sí se versiona: fija las versiones exactas con las que
+# se construyó el sitio, para que GitHub use las mismas.
+.DS_Store
+Thumbs.db
+*.docx
+*.pdf

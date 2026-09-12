@@ -1,0 +1,298 @@
+// Portada: apertura, listado numerado, trabajo seleccionado,
+// breves de opinión y tira de imágenes.
+
+.portada > section { border-bottom: 1px solid var(--linea); }
+.portada > section:last-child { border-bottom: 0; }
+
+/* ── Apertura ──────────────────────────────────────────────── */
+
+.apertura {
+  padding-block: clamp(2.25rem, 6vw, 5rem) clamp(1.75rem, 4vw, 3rem);
+}
+
+.apertura__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.125rem, 2.5vw, 1.75rem);
+  max-width: 1000px;
+}
+
+/* Rótulo de cabeza: sección / tema / tiempo de lectura. */
+.sello {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.sello__seccion { color: var(--acento); }
+.sello__barra { color: var(--tenue-2); }
+.sello__dato { color: var(--suave); }
+.sello__dato--tenue { color: var(--tenue); }
+
+.apertura__titular {
+  font-size: var(--t-apertura);
+  line-height: 0.95;
+  letter-spacing: -0.012em;
+}
+
+a:hover .apertura__titular { color: var(--acento); }
+
+.apertura__pie {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  gap: clamp(1.25rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.apertura__entradilla {
+  font-family: var(--f-texto);
+  font-size: var(--t-guia);
+  line-height: 1.6;
+  color: var(--tinta-3);
+  text-wrap: pretty;
+}
+
+.apertura__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.08em;
+  color: var(--tenue);
+}
+
+.apertura__fecha { color: var(--suave); }
+
+.enlace-accion {
+  color: var(--acento);
+  align-self: flex-start;
+  border-bottom: 1px solid var(--acento);
+  padding-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+}
+
+.apertura__franja {
+  aspect-ratio: 32 / 9;
+  min-height: 180px;
+  margin-top: 0.375rem;
+  border-radius: var(--radio);
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+/* ── Cabecera de bloque ────────────────────────────────────── */
+
+.bloque {
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+
+.bloque__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--e-2);
+}
+
+.bloque__titulo {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.bloque__enlace {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--acento);
+}
+
+/* ── Filas numeradas ───────────────────────────────────────── */
+
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2) clamp(0.875rem, 3vw, 2.5rem);
+  align-items: baseline;
+  padding: var(--e-5) 0;
+  border-top: 1px solid var(--linea);
+  transition: background var(--t-rapido) var(--curva);
+
+  &:last-child { border-bottom: 1px solid var(--linea); }
+  &:hover { background: var(--fondo-3); }
+}
+
+.fila__numero {
+  flex: none;
+  width: 2.75rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  color: var(--acento);
+}
+
+.fila__titulo {
+  flex: 1 1 17.5rem;
+  min-width: 0;
+  font-family: var(--f-ui);
+  font-size: var(--t-titulo-fila);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.fila__resumen {
+  flex: 1 1 15rem;
+  min-width: 0;
+  font-family: var(--f-texto);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--suave);
+}
+
+.fila__meta {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.1em;
+  color: var(--tenue);
+  text-transform: uppercase;
+}
+
+/* ── Trabajo seleccionado ──────────────────────────────────── */
+
+.rejilla-trabajos {
+  display: grid;
+  /* auto-fill y no auto-fit: con una sola ficha, auto-fit la estiraría a
+     todo el ancho y la portada se quedaría con un hueco de medio metro. */
+  grid-template-columns: repeat(auto-fill, minmax(16.25rem, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.trabajo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8125rem;
+  transition: opacity var(--t-rapido) var(--curva);
+
+  &:hover { opacity: 0.84; }
+}
+
+.trabajo__imagen {
+  aspect-ratio: 4 / 3;
+  border-radius: 3px;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.trabajo__sello {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+/* El punto de color dice de qué tipo es. No es el acento: el acento
+   marca importancia, esto marca categoría. */
+.punto-cat {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: block;
+  flex: none;
+  background: var(--cat-1);
+}
+
+.punto-cat--2 { background: var(--cat-2); }
+.punto-cat--acento { background: var(--acento); }
+
+.trabajo__titulo {
+  font-family: var(--f-ui);
+  font-size: 1.3125rem;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.trabajo__resumen {
+  font-family: var(--f-texto);
+  font-size: var(--t-resumen);
+  line-height: 1.55;
+  color: var(--suave);
+}
+
+/* ── Breves y tira de imágenes ─────────────────────────────── */
+
+.doble {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
+  gap: clamp(1.25rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.columna-bloque { display: flex; flex-direction: column; gap: var(--e-4); }
+
+.breve {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.875rem;
+  border-bottom: 1px solid var(--linea);
+  padding-bottom: 0.6875rem;
+  transition: border-color var(--t-rapido) var(--curva);
+
+  &:hover { border-color: var(--acento); }
+}
+
+.breve__titulo {
+  font-family: var(--f-texto);
+  font-size: 1.0625rem;
+  line-height: 1.4;
+}
+
+.breve__fecha {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  color: var(--tenue);
+  flex: none;
+}
+
+.tira-fotos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--e-2);
+}
+
+.tira-fotos__hueco {
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.nota-tenue {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--tenue);
+}

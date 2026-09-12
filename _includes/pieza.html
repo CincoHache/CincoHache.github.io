@@ -1,0 +1,15 @@
+{%- comment -%}
+  Una pieza en la rejilla de «Sigue leyendo». Tarjeta pequeña: hueco de
+  imagen, rótulo de sección y titular.
+{%- endcomment -%}
+{%- assign e = include.entrada -%}
+{%- assign _es = site.data.secciones | where: "id", e.categoria | first -%}
+<a class="sigue__pieza" href="{{ e.url | relative_url }}">
+  <div class="sigue__imagen hueco">
+    {%- if e.imagen_portada %}
+    <img src="{{ e.imagen_portada | relative_url }}" alt="" loading="lazy">
+    {%- endif %}
+  </div>
+  <span class="sigue__sello">{{ e.genero | default: _es.nombre | default: e.categoria }}</span>
+  <h3 class="sigue__titulo">{{ e.title }}</h3>
+</a>

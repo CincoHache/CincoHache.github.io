@@ -1,0 +1,20 @@
+---
+# Este front matter vacío es obligatorio.
+# Sin él, Jekyll copiaría el archivo sin compilarlo.
+---
+
+// Cinco Hache — hoja de estilo principal.
+// El orden importa: cada pieza depende de las anteriores.
+
+@use "variables";     // paleta, medidas y los dos temas
+@use "fuentes";       // los @font-face, generados
+@use "reset";         // normalización mínima
+@use "tipografia";    // familias, escala y voz
+@use "layout";        // contenedores
+@use "cabecera";
+@use "pie";
+@use "portada";       // apertura, filas, trabajo seleccionado, breves
+@use "articulo";      // prosa, aperturas, fuentes, etiquetas
+@use "trabajos";      // archivo con buscador y filtros
+@use "sobre";
+@use "utilidades";    // accesibilidad, 404, impresión

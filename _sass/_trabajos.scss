@@ -1,0 +1,210 @@
+// Trabajos: el archivo con buscador y filtros. También lo usan las
+// páginas de sección, que son el mismo listado ya filtrado.
+
+.trabajos { padding-block: clamp(1.875rem, 5vw, 3.75rem) 0; }
+
+.trabajos__cabecera {
+  display: flex;
+  flex-direction: column;
+  gap: 1.625rem;
+  padding-bottom: 1.625rem;
+  border-bottom: 1px solid var(--linea);
+}
+
+.trabajos__fila-titulo {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--e-5);
+  flex-wrap: wrap;
+}
+
+.trabajos__titular {
+  font-size: clamp(2.125rem, 1.6rem + 2.4vw, 3.75rem);
+  letter-spacing: 0.005em;
+  line-height: 1;
+}
+
+.trabajos__cuenta {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}
+
+.trabajos__lema {
+  font-family: var(--f-texto);
+  font-size: var(--t-guia);
+  line-height: 1.5;
+  color: var(--tinta-3);
+  max-width: 48ch;
+}
+
+/* ── Buscador ──────────────────────────────────────────────── */
+
+.mandos {
+  display: flex;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.buscador {
+  flex: 1 1 17.5rem;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-pildora);
+  padding: 0.6875rem 1.125rem;
+  background: var(--fondo-3);
+  transition: border-color var(--t-rapido) var(--curva);
+
+  &:focus-within { border-color: var(--acento); }
+}
+
+.buscador__lupa { color: var(--tenue); flex: none; }
+
+.buscador__campo {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--tinta);
+  font-family: var(--f-mono);
+  font-size: 0.78125rem;
+  letter-spacing: 0.02em;
+
+  &::placeholder { color: var(--tenue); }
+}
+
+.buscador__limpiar {
+  flex: none;
+  color: var(--tenue);
+  font-family: var(--f-mono);
+  font-size: 0.875rem;
+  line-height: 1;
+  padding: 0.25rem;
+
+  &:hover { color: var(--acento); }
+}
+
+.filtros { display: flex; gap: 0.4375rem; flex-wrap: wrap; }
+
+.filtro {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-pildora);
+  padding: 0.4375rem 0.8125rem;
+  color: var(--suave);
+  transition: border-color var(--t-rapido) var(--curva),
+              color var(--t-rapido) var(--curva),
+              background var(--t-rapido) var(--curva);
+
+  &:hover { border-color: var(--acento); color: var(--acento); }
+}
+
+.filtro[aria-pressed="true"] {
+  background: var(--acento-masa);
+  border-color: var(--acento-masa);
+  color: var(--sobre-acento);
+}
+
+.aviso-filtro {
+  display: flex;
+  gap: 0.625rem;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.08em;
+  color: var(--acento);
+}
+
+.aviso-filtro button {
+  color: var(--suave);
+  border-bottom: 1px solid var(--tenue-2);
+
+  &:hover { color: var(--acento); }
+}
+
+/* ── Filas del archivo ─────────────────────────────────────── */
+
+.archivo-lista { padding: 0.375rem 0 clamp(2.25rem, 5vw, 4rem); }
+
+.archivo-fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem clamp(0.75rem, 2.5vw, 2rem);
+  align-items: baseline;
+  padding: 1.1875rem 0;
+  border-bottom: 1px solid var(--linea);
+  transition: background var(--t-rapido) var(--curva);
+
+  &:hover { background: var(--fondo-3); }
+}
+
+.archivo-fila__fecha {
+  flex: none;
+  width: 4.625rem;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.06em;
+  color: var(--tenue);
+}
+
+.archivo-fila__titulo {
+  flex: 1 1 16.25rem;
+  min-width: 0;
+  font-family: var(--f-ui);
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4375rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.archivo-fila__resumen {
+  flex: 1 1 13.75rem;
+  min-width: 0;
+  font-family: var(--f-texto);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--suave);
+}
+
+.archivo-fila__cat {
+  flex: none;
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--acento);
+}
+
+.archivo-fila[hidden] { display: none; }
+
+.sin-resultados {
+  padding: 2.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+}
+
+.sin-resultados__titulo {
+  font-family: var(--f-texto);
+  font-size: 1.1875rem;
+  color: var(--tinta-3);
+}
+
+.sin-resultados__pista {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.08em;
+  color: var(--tenue);
+}

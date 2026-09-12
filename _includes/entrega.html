@@ -1,0 +1,18 @@
+{%- comment -%}
+  El número de entrega de una entrada: 001 para la primera que se publicó,
+  y hacia arriba. Se puede fijar a mano con `entrega:` en el front matter
+  —útil si algún día se importa material antiguo—; si no, se cuenta.
+
+  Uso:  {% include entrega.html entrada=page %}
+{%- endcomment -%}
+{%- assign _e = include.entrada -%}
+{%- if _e.entrega -%}
+{{ _e.entrega }}
+{%- else -%}
+{%- assign _viejas_primero = site.posts | reverse -%}
+{%- assign _n = 0 -%}
+{%- for _p in _viejas_primero -%}
+  {%- if _p.url == _e.url -%}{%- assign _n = forloop.index -%}{%- endif -%}
+{%- endfor -%}
+{%- if _n < 10 %}00{{ _n }}{% elsif _n < 100 %}0{{ _n }}{% else %}{{ _n }}{% endif -%}
+{%- endif -%}

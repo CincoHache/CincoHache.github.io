@@ -1,0 +1,112 @@
+// ─────────────────────────────────────────────────────────────
+//  Fundamentos. Lo que se retoca al ajustar el diseño vive aquí
+//  y en _tipografia.scss. Nada más.
+//
+//  Los colores salen del logotipo: el disco #0F0E0D y el eco diagonal
+//  de cinco capas, del carmesí profundo al hueso.
+//
+//  Entre paréntesis, el nombre que tiene cada uno en el canvas, para
+//  poder cotejar los dos sin adivinar.
+// ─────────────────────────────────────────────────────────────
+
+:root {
+
+  /* --- Fondos --- */
+  --fondo:       #0F0E0D;   /* bg    · el disco del logo */
+  --fondo-2:     #0D0C0B;   /* bg-2  · el pie, un punto más hondo */
+  --fondo-3:     #141210;   /* bg-3  · tarjetas, huecos, hover */
+  --fondo-velo:  rgba(15, 14, 13, 0.86);   /* bg-blur · cabecera translúcida */
+
+  /* --- Tintas --- */
+  --tinta:       #F2EEE6;   /* ink   · titulares y texto fuerte */
+  --tinta-2:     #E2DDD3;   /* ink-2 · cuerpo del artículo */
+  --tinta-3:     #C8C2B6;   /* ink-3 · entradillas */
+  --suave:       #A39D92;   /* soft  · resúmenes, rótulos activos */
+  --tenue:       #7D766B;   /* faint · fechas, metadatos */
+  --tenue-2:     #4A453E;   /* faint-2 · separadores, cifras apagadas */
+
+  /* --- Trazos --- */
+  --linea:       #2A2724;   /* line   */
+  --linea-2:     #3A3630;   /* line-2 · tramas y bordes marcados */
+
+  /* --- Acento --- */
+  --acento:      #C8544C;   /* accent      · enlaces, rótulos, capitular */
+  --acento-masa: #891A1A;   /* accent-mass · fondos de píldora y filetes */
+  --sobre-acento:#F6F0EA;   /* on-accent   · texto encima del acento */
+
+  /* --- Categorías. No son el acento: señalan tipo, no importancia --- */
+  --cat-1:       #6FB3C4;   /* cat-1 · proyecto */
+  --cat-2:       #E39A92;   /* cat-2 · pieza visual */
+
+  /* --- Aperturas con mezcla --- */
+  --filtro-blend: grayscale(1) contrast(1.3);
+
+  /* --- Medidas --- */
+  --ancho-sitio:  1280px;   /* el contenedor del canvas */
+  --ancho-texto:  820px;    /* la columna de lectura del artículo */
+  --ancho-prosa:  62ch;
+  --margen: clamp(16px, 4vw, 52px);
+
+  /* --- Espaciado --- */
+  --e-1: 0.25rem;  --e-2: 0.5rem;   --e-3: 0.75rem;
+  --e-4: 1rem;     --e-5: 1.5rem;   --e-6: 2.25rem;
+  --e-7: 3.375rem; --e-8: 5rem;     --e-9: 7.5rem;
+
+  /* --- Trazos y tiempos --- */
+  --radio: 4px;
+  --radio-pildora: 999px;
+  --borde: 1px solid var(--linea);
+  --t-rapido: 120ms;
+  --t-medio: 220ms;
+  --curva: cubic-bezier(0.2, 0, 0.15, 1);
+
+  /* Trama diagonal de los huecos de imagen, del canvas */
+  --trama: repeating-linear-gradient(78deg, var(--linea-2) 0 3px, transparent 3px 12px);
+
+  color-scheme: dark;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Tema claro. Lo activa el interruptor de la cabecera y se
+   recuerda en el navegador. No es una inversión del oscuro:
+   es la otra mitad de la marca, el «eco claro» del logotipo.
+   ───────────────────────────────────────────────────────────── */
+
+:root[data-tema="claro"] {
+  --fondo:       #F1EDE3;
+  --fondo-2:     #E9E4D7;
+  --fondo-3:     #E6E0D2;
+  --fondo-velo:  rgba(241, 237, 227, 0.88);
+
+  --tinta:       #14120F;
+  --tinta-2:     #2B2721;
+  --tinta-3:     #3D382F;
+  --suave:       #5D564B;
+  --tenue:       #675F51;
+  --tenue-2:     #9C917C;
+
+  --linea:       #DBD3C3;
+  --linea-2:     #C7BDA9;
+
+  --acento:      #891A1A;
+  --acento-masa: #891A1A;
+  --sobre-acento:#F6F0EA;
+
+  --cat-1:       #1F6B7D;
+  --cat-2:       #9C4D45;
+
+  --filtro-blend: grayscale(1) contrast(1.3) invert(1);
+
+  color-scheme: light;
+}
+
+/* Respeta a quien pide menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-rapido: 0ms; --t-medio: 0ms; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

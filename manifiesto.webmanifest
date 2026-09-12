@@ -1,0 +1,21 @@
+---
+permalink: /manifiesto.webmanifest
+sitemap: false
+layout: null
+---
+{
+  "name": "{{ site.title }}",
+  "short_name": "5H",
+  "description": {{ site.description | strip_newlines | strip | jsonify }},
+  "lang": "es",
+  "start_url": "{{ '/' | relative_url }}",
+  "scope": "{{ '/' | relative_url }}",
+  "display": "standalone",
+  "background_color": "#0F0E0D",
+  "theme_color": "#0F0E0D",
+  "icons": [
+    { "src": "{{ '/assets/img/marca/5h-logo-180.png' | relative_url }}", "sizes": "180x180", "type": "image/png" },
+    { "src": "{{ '/assets/img/marca/5h-logo-512.png' | relative_url }}", "sizes": "512x512", "type": "image/png" },
+    { "src": "{{ '/assets/img/marca/5h-logo-1024.png' | relative_url }}", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

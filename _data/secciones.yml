@@ -1,0 +1,51 @@
+# Las secciones de Cinco Hache.
+#
+# El orden de esta lista es el orden de todo: el menú, la portada, el pie.
+# Está puesto por peso editorial, no por fecha ni por alfabeto.
+#
+#   id       : lo que va en `categoria:` del front matter. Sin tildes ni ñ.
+#   nombre   : como se escribe de cara al lector.
+#   plural   : titular de la página de sección.
+#   url      : permalink de la página de sección.
+#   aperturas: cómo puede abrir una entrada de esta sección. La herramienta
+#              pregunta cuando hay más de una. Ver _layouts/post.html.
+#   generos  : etiquetas sugeridas para el campo `genero:`, que afina una
+#              entrada dentro de su sección sin necesidad de partirla en dos.
+#   voz      : true en las secciones de opinión: son las que mandan.
+#   portfolio: true si sus entradas salen en «Trabajo seleccionado».
+#   lema     : una línea que describe la sección. Sale en su página.
+
+- id: ensayo
+  nombre: Ensayo
+  plural: Ensayos
+  url: /ensayo/
+  aperturas: [ninguna, plana, mezcla]
+  voz: true
+  lema: Pensar despacio algo que no se resuelve en una tarde.
+
+- id: opinion
+  nombre: Artículo de opinión
+  plural: Artículos de opinión
+  url: /opinion/
+  aperturas: [ninguna, plana, mezcla]
+  voz: true
+  lema: Lo que hay que decir cuando hay que decirlo.
+
+- id: proyecto
+  nombre: Proyecto
+  plural: Proyectos
+  url: /proyecto/
+  aperturas: [plana, mezcla, sangre, ninguna]
+  generos: [Proyecto, Ensayo visual, Encargo, Publicación]
+  voz: false
+  portfolio: true
+  lema: "Encargos y trabajo propio: investigación, edición y fotografía."
+
+- id: otros
+  nombre: Otros
+  plural: Otros
+  url: /otros/
+  aperturas: [plana, sangre, mezcla, ninguna]
+  generos: [Reseña, Fotoreportaje, Diario abierto, Nota, Traducción]
+  voz: false
+  lema: Reseñas, fotoreportajes, diario abierto y lo que no cabe en otro sitio.

@@ -1,0 +1,44 @@
+---
+layout: default
+---
+{%- comment -%}
+  Una sección. Es el mismo listado que Trabajos, ya filtrado en el
+  servidor: así los buscadores indexan una página por sección en vez de
+  depender de que el visitante pulse un filtro.
+{%- endcomment -%}
+{%- assign _s = site.data.secciones | where: "id", page.seccion_id | first -%}
+{%- assign _entradas = site.posts | where: "categoria", page.seccion_id -%}
+
+<div class="trabajos envoltura">
+
+  <div class="trabajos__cabecera">
+    <div class="trabajos__fila-titulo">
+      <h1 class="trabajos__titular titular">{{ _s.plural | default: page.title }}</h1>
+      <span class="trabajos__cuenta">
+        {{ _entradas | size }}
+        {% if _entradas.size == 1 %}entrada{% else %}entradas{% endif %}
+      </span>
+    </div>
+    {%- if _s.lema %}
+    <p class="trabajos__lema">{{ _s.lema }}</p>
+    {%- endif %}
+    <nav class="pildoras" aria-label="Otras secciones">
+      <a class="pildora" href="{{ '/trabajos/' | relative_url }}">Todo</a>
+      {%- for s in site.data.secciones %}
+      <a class="pildora{% if s.id == page.seccion_id %} pildora--activa{% endif %}"
+         href="{{ s.url | relative_url }}">{{ s.plural }}</a>
+      {%- endfor %}
+    </nav>
+  </div>
+
+  <div class="archivo-lista">
+    {%- if _entradas.size > 0 %}
+      {%- for e in _entradas %}
+        {%- include fila-archivo.html entrada=e -%}
+      {%- endfor %}
+    {%- else %}
+    <p class="vacio">{{ site.data.es.textos.sin_entradas }}</p>
+    {%- endif %}
+  </div>
+
+</div>

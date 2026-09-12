@@ -1,0 +1,156 @@
+---
+layout: default
+title: Portada
+clase_body: body--portada
+---
+{%- comment -%}
+  Portada.
+
+  El orden de los bloques es el orden de peso que fijamos: abre el ensayo
+  más reciente, siguen los demás ensayos, luego la opinión y al final el
+  trabajo seleccionado. Todo sale de _data/secciones.yml y de las entradas:
+  publicar una nueva la coloca donde le toca sin tocar esta plantilla.
+{%- endcomment -%}
+
+{%- assign _ensayos = site.posts | where: "categoria", "ensayo" -%}
+{%- assign _opinion = site.posts | where: "categoria", "opinion" -%}
+{%- assign _proyectos = site.posts | where: "categoria", "proyecto" -%}
+{%- assign _cabeza = _ensayos | first | default: site.posts.first -%}
+{%- assign _total = site.posts | size -%}
+
+<div class="portada envoltura">
+
+  {%- if _cabeza %}
+  <section class="apertura" aria-labelledby="apertura-titular">
+    <div class="apertura__cuerpo">
+
+      <p class="sello">{%- include sello.html entrada=_cabeza -%}</p>
+
+      <a href="{{ _cabeza.url | relative_url }}">
+        <h1 class="apertura__titular titular" id="apertura-titular">{{ _cabeza.title }}</h1>
+      </a>
+
+      <div class="apertura__pie">
+        {%- if _cabeza.subtitle %}
+        <p class="apertura__entradilla">{{ _cabeza.subtitle }}</p>
+        {%- else %}
+        <p class="apertura__entradilla">{{ _cabeza.excerpt | strip_html | truncate: 200 }}</p>
+        {%- endif %}
+
+        <div class="apertura__meta">
+          <span class="apertura__fecha">
+            <time datetime="{{ _cabeza.date | date_to_xmlschema }}">{{ _cabeza.date | date: "%d.%m.%Y" }}</time>
+            · Entrega {% include entrega.html entrada=_cabeza %}
+          </span>
+          <a class="enlace-accion" href="{{ _cabeza.url | relative_url }}">
+            {%- assign _s = site.data.secciones | where: "id", _cabeza.categoria | first -%}
+            Leer {% if _cabeza.categoria == "ensayo" %}el ensayo{% else %}la pieza{% endif %} →
+          </a>
+        </div>
+      </div>
+
+      {%- if _cabeza.imagen_portada %}
+      <a class="apertura__franja" href="{{ _cabeza.url | relative_url }}" tabindex="-1" aria-hidden="true">
+        <img src="{{ _cabeza.imagen_portada | relative_url }}" alt="" fetchpriority="high" decoding="async">
+      </a>
+      {%- endif %}
+
+    </div>
+  </section>
+  {%- endif %}
+
+  {%- assign _mas = "" -%}
+  {%- capture _filas_ensayo -%}
+    {%- for e in _ensayos offset: 1 limit: 3 -%}
+      {%- assign _min = e.content | strip_html | number_of_words | divided_by: 220 | plus: 1 -%}
+      <a class="fila" href="{{ e.url | relative_url }}">
+        <span class="fila__numero">{% include entrega.html entrada=e %}</span>
+        <span class="fila__titulo">{{ e.title }}</span>
+        <span class="fila__resumen">
+          {{ e.subtitle | default: e.excerpt | strip_html | truncate: 90 }}
+          <span class="fila__meta">· {{ e.date | date: "%d %b" }} · {{ _min }} min</span>
+        </span>
+      </a>
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- if _ensayos.size > 1 %}
+  <section class="bloque" aria-labelledby="rotulo-ensayos">
+    <div class="bloque__cabecera">
+      <h2 class="bloque__titulo" id="rotulo-ensayos">Más ensayos</h2>
+      <a class="bloque__enlace" href="{{ '/trabajos/' | relative_url }}">Archivo completo ({{ _total }}) →</a>
+    </div>
+    {{ _filas_ensayo }}
+  </section>
+  {%- endif %}
+
+  {%- if _opinion.size > 0 %}
+  <section class="bloque" aria-labelledby="rotulo-opinion">
+    <div class="doble">
+
+      <div class="columna-bloque">
+        <h2 class="bloque__titulo" id="rotulo-opinion">Opinión y notas breves</h2>
+        {%- for e in _opinion limit: 4 %}
+        <a class="breve" href="{{ e.url | relative_url }}">
+          <span class="breve__titulo">{{ e.title }}</span>
+          <span class="breve__fecha">
+            <time datetime="{{ e.date | date_to_xmlschema }}">{{ e.date | date: "%d.%m" }}</time>
+          </span>
+        </a>
+        {%- endfor %}
+        <a class="bloque__enlace" href="{{ '/opinion/' | relative_url }}">Toda la opinión →</a>
+      </div>
+
+      {%- assign _con_foto = site.posts | where_exp: "e", "e.imagen_portada" -%}
+      {%- if _con_foto.size > 2 %}
+      <div class="columna-bloque">
+        <h2 class="bloque__titulo">Imágenes de los artículos</h2>
+        <div class="tira-fotos">
+          {%- for e in _con_foto limit: 3 %}
+          <a class="tira-fotos__hueco hueco" href="{{ e.url | relative_url }}"
+             aria-label="{{ e.title | escape }}">
+            <img src="{{ e.imagen_portada | relative_url }}" alt="" loading="lazy">
+          </a>
+          {%- endfor %}
+        </div>
+        <span class="nota-tenue">Fotografía propia, solo cuando el texto la necesita.</span>
+      </div>
+      {%- endif %}
+
+    </div>
+  </section>
+  {%- endif %}
+
+  {%- if _proyectos.size > 0 %}
+  <section class="bloque" aria-labelledby="rotulo-trabajo">
+    <div class="bloque__cabecera" style="padding-bottom:1.625rem">
+      <h2 class="bloque__titulo" id="rotulo-trabajo">Trabajo seleccionado</h2>
+      {%- assign _viejo = _proyectos | last -%}
+      {%- assign _nuevo = _proyectos | first -%}
+      <span class="fila__meta">{{ _viejo.date | date: "%Y" }} — {{ _nuevo.date | date: "%Y" }}</span>
+    </div>
+    <div class="rejilla-trabajos">
+      {%- for e in _proyectos limit: 3 %}
+      <a class="trabajo" href="{{ e.url | relative_url }}">
+        <div class="trabajo__imagen hueco">
+          {%- if e.imagen_portada %}
+          <img src="{{ e.imagen_portada | relative_url }}" alt="" loading="lazy">
+          {%- endif %}
+        </div>
+        <span class="trabajo__sello">
+          <span class="punto-cat{% if e.genero == 'Ensayo visual' %} punto-cat--2{% endif %}" aria-hidden="true"></span>
+          <span>{{ e.genero | default: "Proyecto" }} · {{ e.date | date: "%Y" }}</span>
+        </span>
+        <h3 class="trabajo__titulo">{{ e.title }}</h3>
+        <p class="trabajo__resumen">{{ e.subtitle | default: e.excerpt | strip_html | truncate: 110 }}</p>
+      </a>
+      {%- endfor %}
+    </div>
+  </section>
+  {%- endif %}
+
+  {%- if _total == 0 %}
+  <p class="vacio">{{ site.data.es.textos.sin_entradas }}</p>
+  {%- endif %}
+
+</div>

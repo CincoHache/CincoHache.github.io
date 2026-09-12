@@ -1,0 +1,128 @@
+# ─────────────────────────────────────────────────────────────
+#  Cinco Hache — configuración global
+#  Los cambios aquí NO se recargan en caliente: hay que parar el
+#  servidor (Ctrl+C) y volver a arrancarlo.
+# ─────────────────────────────────────────────────────────────
+
+# --- Identidad ------------------------------------------------
+title: Cinco Hache
+description: >-
+  Observaciones del mundo moderno. Un ensayo largo al mes,
+  opinión entre medias, y el trabajo propio en el archivo.
+lang: es
+locale: es_ES
+
+# --- Direcciones ----------------------------------------------
+# El repositorio se llama CincoHache.github.io, que es un «sitio de
+# usuario»: se publica en la raíz del dominio, así que baseurl va vacío.
+# GitHub sirve la URL en minúsculas aunque el usuario lleve mayúsculas.
+url: "https://cincohache.github.io"
+baseurl: ""
+
+# --- Autoría --------------------------------------------------
+author:
+  name: Jaime Vázquez de Prada
+  email: ""          # si se rellena, aparece en el pie y en «Sobre mí»
+  bio: >-
+    Un ensayo largo al mes sobre atención, ciudad y tecnología.
+    Este blog es a la vez cuaderno y portfolio.
+  retrato: ""        # /assets/img/retrato.jpg
+
+# --- Redes (deja en blanco lo que no uses) ---------------------
+redes:
+  github: "CincoHache"
+  instagram: ""
+  bluesky: ""
+  mastodon: ""
+
+# --- Comentarios ----------------------------------------------
+# Cuando se active, hay que añadir el fragmento de giscus o utterances
+# en _includes. Mientras `activos` sea false, el bloque no se pinta.
+comentarios:
+  activos: false
+  sistema: giscus
+  repositorio: ""
+
+# ─────────────────────────────────────────────────────────────
+#  SEO
+#
+#  De esto se ocupa jekyll-seo-tag: título, descripción, canónica,
+#  Open Graph, tarjeta de Twitter y JSON-LD de tipo Article. Lee de
+#  aquí y del front matter de cada entrada (`title`, `description`,
+#  `image`, `date`, `author`).
+# ─────────────────────────────────────────────────────────────
+
+# Imagen que se enseña al compartir una página sin imagen propia.
+image: /assets/img/marca/5h-logo-1024.png
+
+# Logotipo del sitio para los datos estructurados.
+logo: /assets/img/marca/5h-logo-512.png
+
+# Perfiles para el `sameAs` del JSON-LD. Los rellena quien los tenga.
+social:
+  name: Jaime Vázquez de Prada
+  links:
+    - https://github.com/CincoHache
+
+twitter:
+  card: summary_large_image
+
+# Códigos de verificación, si algún día se dan de alta las herramientas
+# para editores. Vacío no imprime nada.
+webmaster_verifications:
+  google: ""
+  bing: ""
+
+# --- Construcción ---------------------------------------------
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true            # los ladillos llevan id: de ahí sale el sumario
+  syntax_highlighter: rouge
+  smart_quotes: ["apos", "apos", "ldquo", "rdquo"]
+
+sass:
+  style: compressed
+  sass_dir: _sass
+
+permalink: /:year/:month/:title/
+timezone: Europe/Madrid
+excerpt_separator: "<!--mas-->"
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+feed:
+  path: /feed.xml
+
+# --- Valores por defecto de las entradas ----------------------
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      categoria: otros
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: pagina
+
+# --- Qué no se publica ----------------------------------------
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LEEME.md
+  - vendor
+  - .jekyll-cache
+  - .sass-cache
+  - node_modules
+  - "*.docx"
+  - "*.pdf"
+
+show_drafts: false

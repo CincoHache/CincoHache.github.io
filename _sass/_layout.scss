@@ -1,0 +1,51 @@
+// Contenedores y armazón.
+
+.principal {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+/* El contenedor del sitio: 1280px con márgenes fluidos. */
+.envoltura {
+  width: 100%;
+  max-width: var(--ancho-sitio);
+  margin-inline: auto;
+  padding-inline: var(--margen);
+}
+
+/* La columna de lectura. */
+.columna {
+  max-width: var(--ancho-texto);
+}
+
+/* Un filete a lo ancho del contenedor. */
+.regla {
+  border: 0;
+  border-top: 1px solid var(--linea);
+  margin: 0;
+}
+
+/* Bloque que se sale hasta los bordes de la pantalla. */
+.sangre {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Hueco de imagen con la trama diagonal del canvas: se ve dónde irá
+   una foto antes de que exista, y en producción no molesta. */
+.hueco {
+  background-color: var(--fondo-3);
+  background-image: var(--trama);
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--e-3);
+}
+
+.hueco__nota {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tenue);
+}

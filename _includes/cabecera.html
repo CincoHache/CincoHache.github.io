@@ -1,0 +1,68 @@
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+{%- assign _u = page.url -%}
+{%- assign _es_portada = false -%}
+{%- if _u == "/" or page.clase_body == "body--portada" %}{% assign _es_portada = true %}{% endif -%}
+
+<header class="cabecera" role="banner">
+  <div class="cabecera__interior">
+
+    <a class="marca" href="{{ '/' | relative_url }}" rel="home">
+      {%- comment -%}
+        El disco va como imagen de fondo, no como <img>, para poder cambiarlo
+        con el tema sin que el navegador se baje los dos: solo carga el que
+        está aplicado. Cada tema usa su versión del logotipo, nunca la del
+        otro invertida.
+      {%- endcomment -%}
+      <span class="marca__disco" role="img" aria-label="Cinco Hache"></span>
+      <span class="marca__nombre">Cinco Hache</span>
+    </a>
+
+    <nav class="menu" aria-label="Principal">
+      <a class="menu__enlace{% if _es_portada %} menu__enlace--activo{% endif %}"
+         href="{{ '/' | relative_url }}"
+         {% if _es_portada %}aria-current="page"{% endif %}>
+        {%- if _es_portada %}<span class="menu__punto" aria-hidden="true"></span>{% endif -%}
+        <span>Inicio</span>
+      </a>
+
+      <a class="menu__enlace{% if _u == '/trabajos/' %} menu__enlace--activo{% endif %}"
+         href="{{ '/trabajos/' | relative_url }}"
+         {% if _u == '/trabajos/' %}aria-current="page"{% endif %}>
+        {%- if _u == '/trabajos/' %}<span class="menu__punto" aria-hidden="true"></span>{% endif -%}
+        <span>Trabajos</span>
+      </a>
+
+      <a class="menu__enlace{% if _u == '/acerca/' %} menu__enlace--activo{% endif %}"
+         href="{{ '/acerca/' | relative_url }}"
+         {% if _u == '/acerca/' %}aria-current="page"{% endif %}>
+        {%- if _u == '/acerca/' %}<span class="menu__punto" aria-hidden="true"></span>{% endif -%}
+        <span>Sobre mí</span>
+      </a>
+
+      {%- comment -%}
+        La lupa lleva al archivo, que es donde vive el buscador de verdad.
+        Un buscador en la cabecera obligaría a cargar el índice en todas las
+        páginas para usarlo en una.
+      {%- endcomment -%}
+      <a class="icono-boton" href="{{ '/trabajos/#buscar' | relative_url }}"
+         aria-label="Buscar en el archivo">
+        <span class="lupa" aria-hidden="true"></span>
+        <span class="icono-boton__texto">Buscar</span>
+      </a>
+
+      <button class="icono-boton" type="button" id="cambiar-tema"
+              aria-label="Cambiar entre modo claro y oscuro">
+        <span class="tema__luna" aria-hidden="true"></span>
+        <span class="tema__sol" aria-hidden="true">
+          <span class="tema__nucleo"></span>
+          <span class="tema__rayo--n"></span>
+          <span class="tema__rayo--s"></span>
+          <span class="tema__rayo--o"></span>
+          <span class="tema__rayo--e"></span>
+        </span>
+      </button>
+    </nav>
+
+  </div>
+</header>

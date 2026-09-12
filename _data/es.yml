@@ -1,0 +1,42 @@
+# Cadenas en español. Jekyll no localiza fechas por sí solo, así que
+# los nombres de mes viven aquí y los compone _includes/fecha.html.
+
+meses:
+  - enero
+  - febrero
+  - marzo
+  - abril
+  - mayo
+  - junio
+  - julio
+  - agosto
+  - septiembre
+  - octubre
+  - noviembre
+  - diciembre
+
+meses_abrev:
+  - ene
+  - feb
+  - mar
+  - abr
+  - may
+  - jun
+  - jul
+  - ago
+  - sep
+  - oct
+  - nov
+  - dic
+
+textos:
+  leer_mas: Seguir leyendo
+  publicado_en: Publicado en
+  entradas_recientes: Lo último
+  siguiente: Siguiente
+  anterior: Anterior
+  volver_portada: Volver a la portada
+  sin_entradas: Todavía no hay nada publicado en esta sección.
+  tiempo_lectura: min de lectura
+  compartir: Compartir
+  archivo: Archivo

@@ -1,0 +1,23 @@
+{%- comment -%}
+  Una imagen con su pie. La escribe la herramienta a partir de las marcas
+  [IMG: pie | modificador | crédito] del documento de Google Docs.
+
+  Parámetros:
+    src          ruta desde la raíz, /assets/img/slug/01.jpg
+    pie          texto del pie (opcional)
+    alt          texto alternativo; si falta se usa el pie
+    modificador  columna | ancho-completo | sangre | izquierda | derecha | galeria
+    credito      autoría de la imagen (opcional)
+{%- endcomment -%}
+{%- assign _mod = include.modificador | default: "columna" -%}
+<figure class="figura figura--{{ _mod }}">
+  <img src="{{ include.src | relative_url }}"
+       alt="{{ include.alt | default: include.pie | strip_html | escape }}"
+       loading="lazy" decoding="async">
+  {%- if include.pie or include.credito %}
+  <figcaption class="figura__pie">
+    {%- if include.pie %}<span>{{ include.pie }}</span>{% endif -%}
+    {%- if include.credito %}<span class="figura__credito">{{ include.credito }}</span>{% endif -%}
+  </figcaption>
+  {%- endif %}
+</figure>

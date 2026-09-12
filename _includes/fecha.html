@@ -1,0 +1,16 @@
+{%- comment -%}
+  Fecha en español. Jekyll no localiza, así que la componemos a mano.
+
+  Uso:
+    {% include fecha.html fecha=page.date %}              → 10 de septiembre de 2026
+    {% include fecha.html fecha=page.date formato="corto" %} → 10 sep 2026
+{%- endcomment -%}
+{%- assign _d = include.fecha -%}
+{%- assign _i = _d | date: "%-m" | minus: 1 -%}
+{%- assign _dia = _d | date: "%-d" -%}
+{%- assign _anio = _d | date: "%Y" -%}
+{%- if include.formato == "corto" -%}
+{{ _dia }} {{ site.data.es.meses_abrev[_i] }} {{ _anio }}
+{%- else -%}
+{{ _dia }} de {{ site.data.es.meses[_i] }} de {{ _anio }}
+{%- endif -%}

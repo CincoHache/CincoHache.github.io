@@ -1,0 +1,17 @@
+---
+permalink: /robots.txt
+sitemap: false
+layout: null
+---
+{%- comment -%}
+  `layout: null` es imprescindible: sin él, los `defaults` de _config.yml le
+  aplican el layout de página y el robots.txt sale envuelto en HTML.
+{%- endcomment -%}
+# Cinco Hache — todo el sitio es público y se puede indexar.
+User-agent: *
+Allow: /
+
+# La página de error no aporta nada a un buscador.
+Disallow: /404.html
+
+Sitemap: {{ "/sitemap.xml" | absolute_url }}

@@ -1,0 +1,22 @@
+{%- comment -%}
+  El rótulo de cabeza: sección · tema · minutos de lectura.
+  Es la línea que identifica una pieza de un vistazo.
+
+  Parámetros:
+    entrada   la entrada
+    numero    true para añadir el número de entrega junto a la sección
+{%- endcomment -%}
+{%- assign _e = include.entrada -%}
+{%- assign _sid = _e.categoria | default: "otros" -%}
+{%- assign _s = site.data.secciones | where: "id", _sid | first -%}
+{%- assign _rotulo = _e.genero | default: _s.nombre | default: _sid -%}
+{%- assign _palabras = _e.content | strip_html | number_of_words -%}
+{%- assign _minutos = _palabras | divided_by: 220 | plus: 1 -%}
+
+<span class="sello__seccion">{{ _rotulo }}{% if include.numero %} {% include entrega.html entrada=_e %}{% endif %}</span>
+{%- if _e.tema and _e.tema != "" %}
+<span class="sello__barra" aria-hidden="true">/</span>
+<span class="sello__dato">{{ _e.tema }}</span>
+{%- endif %}
+<span class="sello__barra" aria-hidden="true">/</span>
+<span class="sello__dato--tenue">{{ _minutos }} min</span>

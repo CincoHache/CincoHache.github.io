@@ -1,0 +1,21 @@
+{%- comment -%}
+  Una fila del archivo. Los atributos `data-` son lo que lee el buscador:
+  el texto ya normalizado y la sección, para poder filtrar sin recargar.
+{%- endcomment -%}
+{%- assign e = include.entrada -%}
+{%- assign _s = site.data.secciones | where: "id", e.categoria | first -%}
+{%- assign _rotulo = e.genero | default: _s.nombre | default: e.categoria -%}
+{%- capture _busqueda -%}
+{{ e.title }} {{ e.subtitle }} {{ _rotulo }} {{ e.tema }} {{ e.etiquetas | join: " " }} {{ e.date | date: "%Y" }}
+{%- endcapture -%}
+<a class="archivo-fila" href="{{ e.url | relative_url }}"
+   data-entrada
+   data-seccion="{{ e.categoria }}"
+   data-busqueda="{{ _busqueda | strip_newlines | strip | escape }}">
+  <span class="archivo-fila__fecha">
+    <time datetime="{{ e.date | date_to_xmlschema }}">{{ e.date | date: "%d.%m.%y" }}</time>
+  </span>
+  <span class="archivo-fila__titulo">{{ e.title }}</span>
+  <span class="archivo-fila__resumen">{{ e.subtitle | default: e.excerpt | strip_html | truncate: 100 }}</span>
+  <span class="archivo-fila__cat">{{ _rotulo }}</span>
+</a>
