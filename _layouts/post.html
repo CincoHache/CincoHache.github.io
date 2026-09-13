@@ -122,12 +122,12 @@ layout: default
       {%- endif %}
 
       <div class="ficha-autor">
+        {%- if site.author.retrato and site.author.retrato != "" %}
         <div class="ficha-autor__retrato">
-          {%- if site.author.retrato %}
           <img src="{{ site.author.retrato | relative_url }}" alt="{{ site.author.name }}"
                loading="lazy" width="76" height="76">
-          {%- endif %}
         </div>
+        {%- endif %}
         <div class="ficha-autor__cuerpo">
           <span class="ficha-autor__nombre">{{ site.author.name }}</span>
           <span class="ficha-autor__texto">{{ site.author.bio | default: site.description | strip_newlines | strip }}</span>

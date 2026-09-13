@@ -1,28 +1,19 @@
 # El contenido de la página «Sobre mí». Se edita aquí, no en la plantilla.
-# PENDIENTE: todo esto es texto de relleno. Sustitúyelo por el tuyo.
 
-titular: "Escribo despacio sobre cosas que van deprisa"
+titular: "Jaime Vázquez de Prada"
 
 parrafos:
   - >-
-    Me llamo Jaime Vázquez de Prada Sáez y firmo aquí todo lo que publico. Saco un
-    ensayo largo al mes sobre atención, ciudad y tecnología, y entre medias
-    dejo opinión, fotografías y notas de proyectos. Este sitio es a la vez
-    cuaderno público y portfolio: si has llegado buscando trabajo mío, el
-    archivo es el mejor currículum que tengo.
-  - >-
-    Trabajo por encargo en investigación, edición y publicaciones. Prefiero
-    proyectos con una pregunta clara y un plazo honesto.
+    Me llamo Jaime Vázquez de Prada, tengo veintitrés años y firmo aquí todo lo
+    que publico. Escribo sobre aquello que me interese, generalmente relacionado
+    con temas de actualidad o con la industria hostelera, de la que soy
+    profesional. Este sitio es un proyecto personal cuyo único propósito es
+    empujarme a escribir.
 
-retrato: ""            # /assets/img/retrato.jpg
-retrato_nota: "Retrato: cualquier foto con luz lateral funciona; el sitio la desatura un poco."
+# Cuando tengas un retrato: cópialo a assets/img/ y pon aquí su ruta.
+# Mientras esté vacío, la página no reserva hueco para él.
+retrato: ""
 
-ahora:
-  - Terminando una serie de seis ensayos sobre el tiempo muerto.
-  - Revelando el material de dos semanas en el norte.
-  - Abierto a un encargo editorial para el primer trimestre.
-
-servicios:
-  - Investigación y guion
-  - Edición y publicación
-  - Fotografía documental
+# Listas opcionales. Vacías, no aparecen en la página.
+ahora: []
+servicios: []

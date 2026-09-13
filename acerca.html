@@ -2,7 +2,7 @@
 layout: default
 title: Sobre mí
 permalink: /acerca/
-description: Quién escribe Cinco Hache, en qué trabaja y cómo dar con él.
+description: Quién escribe Cinco Hache y cómo dar con él.
 ---
 {%- assign s = site.data.sobre -%}
 
@@ -28,18 +28,16 @@ description: Quién escribe Cinco Hache, en qué trabaja y cómo dar con él.
 
     </div>
 
+    {%- if s.retrato and s.retrato != "" %}
     <div class="sobre__retrato">
-      <div class="sobre__retrato-marco hueco">
-        {%- if s.retrato and s.retrato != "" %}
+      <div class="sobre__retrato-marco">
         <img src="{{ s.retrato | relative_url }}" alt="{{ site.author.name }}">
-        {%- else %}
-        <span class="hueco__nota">Retrato 4:5</span>
-        {%- endif %}
       </div>
-      {%- if s.retrato_nota %}
+      {%- if s.retrato_nota and s.retrato_nota != "" %}
       <span class="nota-tenue">{{ s.retrato_nota }}</span>
       {%- endif %}
     </div>
+    {%- endif %}
 
   </div>
 
