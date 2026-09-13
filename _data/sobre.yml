@@ -1,14 +1,20 @@
 # El contenido de la página «Sobre mí». Se edita aquí, no en la plantilla.
+#
+# Está montada como la de Solaris: primero por qué existe el sitio, después
+# de qué se escribe, y al final quién lo firma. Al revés de lo normal, y a
+# propósito — quien llega aquí quiere saber a qué se apunta, no un currículum.
+#
+# Las tres frases son las de Jaime, solo cambiadas de orden.
 
-titular: "Jaime Vázquez de Prada Sáez"
+titular: "Un proyecto personal para empujarme a escribir"
 
 parrafos:
   - >-
-    Me llamo Jaime Vázquez de Prada, tengo veintitrés años y firmo aquí todo lo
-    que publico. Escribo sobre aquello que me interese, generalmente relacionado
-    con temas de actualidad o con la industria hostelera, de la que soy
-    profesional. Este sitio es un proyecto personal cuyo único propósito es
-    empujarme a escribir.
+    Escribo sobre aquello que me interese, generalmente relacionado con temas
+    de actualidad o con la industria hostelera, de la que soy profesional.
+  - >-
+    Me llamo Jaime Vázquez de Prada, tengo veintitrés años y firmo aquí todo
+    lo que publico.
 
 # Cuando tengas un retrato: cópialo a assets/img/ y pon aquí su ruta.
 # Mientras esté vacío, la página no reserva hueco para él.

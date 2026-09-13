@@ -102,6 +102,21 @@ def descripcion_vacia(sitio: Path) -> None:
                         p.read_text(encoding="utf-8")), encoding="utf-8")
 
 
+def sin_imagen_social(sitio: Path) -> None:
+    """Un enlace compartido sin foto: un rectángulo de texto gris."""
+    p = sitio / "index.html"
+    p.write_text(re.sub(r'<meta property="og:image"[^>]*>', "",
+                        p.read_text(encoding="utf-8")), encoding="utf-8")
+
+
+def arroba_suelta(sitio: Path) -> None:
+    """Lo que imprimía jekyll-seo-tag con la configuración a medias."""
+    p = sitio / "index.html"
+    p.write_text(p.read_text(encoding="utf-8").replace(
+        "</head>", '<meta name="twitter:site" content="@"></head>'),
+        encoding="utf-8")
+
+
 def rastro_de_ia(sitio: Path) -> None:
     """El encargo es que no quede ni uno, en ninguna parte."""
     p = sitio / "index.html"
@@ -128,6 +143,8 @@ AVERIAS = [
     ("el Sobre mí desaparecido",     falta_el_sobre_mi,    "páginas de siempre"),
     ("una página sin título",        pagina_sin_titulo,    "título y descripción"),
     ("una descripción vacía",        descripcion_vacia,    "título y descripción"),
+    ("un enlace sin imagen",         sin_imagen_social,    "compartir"),
+    ("un @ suelto de Twitter",       arroba_suelta,        "compartir"),
     ("un rastro de IA",              rastro_de_ia,         "rastro de IA"),
     ("texto de relleno",             texto_de_relleno,     "texto de relleno"),
 ]

@@ -312,6 +312,42 @@ def main(destino: Path) -> int:
             ]
         return []
 
+    # ── Lo que se ve al compartir un enlace ──────────────────────────────
+    # Un enlace sin imagen sale como un rectángulo de texto gris y casi nadie
+    # lo pincha. Y jekyll-seo-tag, con la configuración a medias, llegó a
+    # imprimir <meta name="twitter:site" content="@">: una arroba sola, y de
+    # autor el nombre completo con espacios, que no es ninguna cuenta.
+
+    @comprobar("Las etiquetas para compartir están completas")
+    def _():
+        problemas = []
+        for pagina in paginas:
+            if pagina.name == "404.html":
+                continue
+            html = pagina.read_text(encoding="utf-8", errors="replace")
+            rel = pagina.relative_to(destino)
+
+            img = re.search(r'property="og:image"[^>]+content="([^"]*)"', html)
+            if not img or not img.group(1).strip():
+                problemas.append(f"{rel} sin og:image")
+            elif img.group(1).startswith("http"):
+                ruta = re.sub(r"^https?://[^/]+", "", img.group(1))
+                if not (destino / ruta.lstrip("/")).exists():
+                    problemas.append(f"{rel}: og:image apunta a {ruta}, que no está")
+
+            if img and "summary_large_image" not in html:
+                problemas.append(f"{rel} tiene imagen pero la tarjeta es pequeña")
+
+            # Una arroba sola, o un «usuario» con espacios: los dos son cuentas
+            # que no existen, y quedan a la vista de quien comparta el enlace.
+            for m in re.finditer(r'name="twitter:(site|creator)"[^>]+content="([^"]*)"', html):
+                valor = m.group(2).strip()
+                if valor in ("", "@") or " " in valor:
+                    problemas.append(
+                        f"{rel}: twitter:{m.group(1)} es «{valor}», que no es una cuenta"
+                    )
+        return problemas
+
     # ── El código fuente que hay que copiar y pegar ──────────────────────
     # Las funciones de Supabase se pegan a mano en el editor de su panel, y
     # un byte de control no sobrevive a un copiar-pegar. Un \u0000 escrito

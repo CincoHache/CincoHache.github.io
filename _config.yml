@@ -6,9 +6,12 @@
 
 # --- Identidad ------------------------------------------------
 title: Cinco Hache
+# Sale en el pie, en los resultados de Google y cada vez que se comparte un
+# enlace. No promete cadencia a propósito: una promesa de publicar cada tanto
+# se nota mucho cuando se incumple.
 description: >-
-  Observaciones del mundo moderno. Un ensayo largo al mes,
-  opinión entre medias, y el trabajo propio en el archivo.
+  Actualidad, hostelería y lo que me interese.
+  Un proyecto personal para empujarme a escribir.
 lang: es
 locale: es_ES
 
@@ -107,8 +110,13 @@ social:
   links:
     - https://github.com/CincoHache
 
-twitter:
-  card: summary_large_image
+# Sin bloque `twitter:` aquí. Con él pero sin `username`, jekyll-seo-tag
+# imprimía <meta name="twitter:site" content="@">: una arroba suelta. La
+# tarjeta grande la pone igual por su cuenta, porque hay imagen.
+# Cuando exista la cuenta de X, se añade así:
+#
+#   twitter:
+#     username: cincohache
 
 # Códigos de verificación, si algún día se dan de alta las herramientas
 # para editores. Vacío no imprime nada.
@@ -149,11 +157,13 @@ defaults:
     values:
       layout: post
       categoria: otros
+      image: /assets/img/social.png
   - scope:
       path: ""
       type: pages
     values:
       layout: pagina
+      image: /assets/img/social.png
 
 # --- Qué no se publica ----------------------------------------
 exclude:
