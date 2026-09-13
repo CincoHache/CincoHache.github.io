@@ -1,5 +1,15 @@
 # Construye Cinco Hache con Jekyll y lo despliega en GitHub Pages.
-# Requisito: en Settings > Pages, Source debe estar en "GitHub Actions".
+#
+# REQUISITO, y es el que rompe el sitio si falla: en Settings > Pages, el
+# «Source» tiene que estar en **GitHub Actions**. Si está en «Deploy from a
+# branch», GitHub monta el sitio por su cuenta con Jekyll 3, que no entiende
+# el `@use` de Dart Sass, y publica assets/css/main.css con las doce líneas
+# de `@use` en crudo: 182 bytes. La página carga sin una sola regla de estilo
+# —sin colores, sin tipografías, sin retícula— y en el navegador no hay
+# ningún error que lo explique.
+#
+# Se comprueba en un segundo:  curl -sI https://cincohache.github.io/assets/css/main.css
+# Si el tamaño es de cientos de bytes en vez de decenas de miles, es esto.
 name: Publicar Cinco Hache
 
 on:
@@ -34,10 +44,15 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
         with:
-          # Enciende Pages en modo «GitHub Actions» si aún no lo está, en vez
-          # de depender de que alguien lo cambie a mano en Settings. Sin esto,
-          # el constructor antiguo de GitHub sigue mandando y publica el SCSS
-          # sin compilar, porque su Jekyll 3 no entiende `@use`.
+          # Enciende Pages si el repositorio no lo tiene activado.
+          #
+          # Ojo: NO basta para arreglar la cabecera de arriba. Si Pages ya
+          # está activo pero en modo «rama», esta opción no lo cambia, y los
+          # dos constructores conviven: este workflow compila bien y el
+          # antiguo pisa el resultado. Cambiar el modo es cosa de Settings,
+          # o de la API:
+          #
+          #   PUT /repos/:owner/:repo/pages  {"build_type": "workflow"}
           enablement: true
 
       - name: Construir el sitio
