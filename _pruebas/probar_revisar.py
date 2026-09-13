@@ -98,7 +98,7 @@ def pagina_sin_titulo(sitio: Path) -> None:
 def descripcion_vacia(sitio: Path) -> None:
     """La misma trampa que el título: content="" parecía tener contenido."""
     p = sitio / "index.html"
-    p.write_text(re.sub(r'(name="description"[^>]+content=")[^"]*"', r'"',
+    p.write_text(re.sub(r'(name="description"[^>]+content=")[^"]*"', r'\1"',
                         p.read_text(encoding="utf-8")), encoding="utf-8")
 
 

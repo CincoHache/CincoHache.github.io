@@ -312,6 +312,34 @@ def main(destino: Path) -> int:
             ]
         return []
 
+    # ── El código fuente que hay que copiar y pegar ──────────────────────
+    # Las funciones de Supabase se pegan a mano en el editor de su panel, y
+    # un byte de control no sobrevive a un copiar-pegar. Un \u0000 escrito
+    # como carácter de verdad, en vez de como escape, cuela un NUL en el
+    # archivo: git lo marca como binario, el editor lo tira, y la función
+    # sube rota sin que nadie vea nada raro.
+
+    @comprobar("Ningún archivo de texto lleva caracteres de control")
+    def _():
+        problemas = []
+        patrones = ("*.ts", "*.js", "*.sql", "*.scss", "*.html", "*.yml", "*.md", "*.py")
+        for patron in patrones:
+            for archivo in RAIZ.rglob(patron):
+                if "_site" in archivo.parts or ".git" in archivo.parts:
+                    continue
+                b = archivo.read_bytes()
+                malos = {
+                    x for x in b
+                    if x < 9 or x in (11, 12) or 14 <= x <= 31 or x == 127
+                }
+                if malos:
+                    nombres = ", ".join(f"0x{x:02x}" for x in sorted(malos))
+                    problemas.append(
+                        f"{archivo.relative_to(RAIZ)} lleva {nombres} de verdad; "
+                        f"deberían estar escritos como escape (\\x00, \\x1F…)"
+                    )
+        return problemas
+
     # ── Avisos: cosas que mirar, no que paren nada ───────────────────────
 
     avisar("Imágenes que van a hacer lenta la página", [
