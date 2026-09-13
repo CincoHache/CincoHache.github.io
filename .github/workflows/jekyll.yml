@@ -1,4 +1,4 @@
-# Construye Cinco Hache con Jekyll y lo despliega en GitHub Pages.
+# Construye Cinco Hache con Jekyll, lo revisa y lo despliega en GitHub Pages.
 #
 # REQUISITO, y es el que rompe el sitio si falla: en Settings > Pages, el
 # «Source» tiene que estar en **GitHub Actions**. Si está en «Deploy from a
@@ -8,8 +8,12 @@
 # —sin colores, sin tipografías, sin retícula— y en el navegador no hay
 # ningún error que lo explique.
 #
-# Se comprueba en un segundo:  curl -sI https://cincohache.github.io/assets/css/main.css
-# Si el tamaño es de cientos de bytes en vez de decenas de miles, es esto.
+# Desde que existe el trabajo «comprobar», esto ya no puede pasar en silencio:
+# se mira el sitio publicado y el despliegue se pone en rojo si vuelve a
+# ocurrir. La comprobación de un segundo a mano, por si acaso:
+#
+#   curl -sI https://cincohache.github.io/assets/css/main.css
+#
 name: Publicar Cinco Hache
 
 on:
@@ -55,10 +59,24 @@ jobs:
           #   PUT /repos/:owner/:repo/pages  {"build_type": "workflow"}
           enablement: true
 
+      # La marca que luego permite comprobar que lo publicado es esto y no
+      # una copia vieja servida por la caché.
+      - name: Sellar la versión
+        run: |
+          printf 'sha: %s\nfecha: "%s"\n' \
+            "${GITHUB_SHA}" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > _data/version.yml
+          cat _data/version.yml
+
       - name: Construir el sitio
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+
+      # La puerta de antes de subir. Si algo de esto falla, no se publica:
+      # más vale quedarse con la versión anterior en pie que sustituirla por
+      # una rota. Todo lo que mira aquí se rompió de verdad alguna vez.
+      - name: Revisar lo compilado
+        run: python3 _pruebas/revisar.py _site
 
       - name: Subir el resultado
         uses: actions/upload-pages-artifact@v3
@@ -69,7 +87,46 @@ jobs:
       url: ${{ steps.despliegue.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: construir
+    outputs:
+      url: ${{ steps.despliegue.outputs.page_url }}
     steps:
       - name: Desplegar en GitHub Pages
         id: despliegue
         uses: actions/deploy-pages@v4
+
+  # La segunda puerta, y la que de verdad importa: mira lo que ve un lector.
+  # Revisar `_site` no habría detectado el desastre de los estilos, porque
+  # `_site` estaba perfecto; lo que fallaba era el tramo de después.
+  comprobar:
+    runs-on: ubuntu-latest
+    needs: desplegar
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      # GitHub tarda un poco en servir lo recién desplegado por todo el CDN.
+      - name: Esperar a que el CDN se entere
+        run: sleep 25
+
+      - name: Comprobar el sitio publicado
+        run: |
+          python3 _pruebas/comprobar_en_vivo.py \
+            "${{ needs.desplegar.outputs.url || 'https://cincohache.github.io' }}" \
+            "${GITHUB_SHA}"
+
+      # Y por último, el interruptor que lo rompió todo el primer día. Si
+      # alguien lo cambia desde Settings, esto lo dice al momento en vez de
+      # dejar el sitio sin estilos durante días.
+      - name: Vigilar que Pages siga en modo «GitHub Actions»
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          modo=$(gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '.build_type' 2>/dev/null || echo desconocido)
+          echo "Pages construye en modo: ${modo}"
+          if [ "${modo}" = "legacy" ]; then
+            echo "::error::Pages ha vuelto al modo «rama». Con Jekyll 3 el sitio se publica sin estilos. Settings > Pages > Source = GitHub Actions."
+            exit 1
+          fi

@@ -1,0 +1,4 @@
+# Lo reescribe el despliegue con el commit exacto que se está publicando.
+# En local queda en «trabajo», que es justo lo que es.
+sha: trabajo
+fecha: ""

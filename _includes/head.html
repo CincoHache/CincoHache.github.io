@@ -36,6 +36,14 @@
 <link rel="sitemap" type="application/xml" href="{{ '/sitemap.xml' | relative_url }}">
 
 {%- comment -%}
+  El commit que se está publicando. Sirve para una sola cosa, y es
+  importante: distinguir «el despliegue ha llegado» de «sigo viendo lo de
+  antes». Sin esto no hay forma de saberlo desde fuera, y el primer día se
+  dio por bueno dos veces un despliegue que no había ocurrido.
+{%- endcomment -%}
+<meta name="ch-version" content="{{ site.data.version.sha }}">
+
+{%- comment -%}
   Solo se adelantan las dos caras que aparecen en todas las páginas por
   encima del pliegue. Precargar las seis retrasaría lo que sí importa.
 {%- endcomment -%}
