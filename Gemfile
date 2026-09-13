@@ -11,15 +11,15 @@ group :jekyll_plugins do
   gem "jekyll-seo-tag",  "~> 2.8"    # metadatos Open Graph y Twitter
 end
 
-# Windows y JRuby no traen zoneinfo; hace falta esta gema para
-# que timezone: Europe/Madrid funcione.
-platforms :mingw, :x64_mingw, :mswin, :jruby do
+# Windows y JRuby no traen la base de datos de husos horarios; hace falta
+# esta gema para que `timezone: Europe/Madrid` funcione.
+platforms :windows, :jruby do
   gem "tzinfo", ">= 1", "< 3"
   gem "tzinfo-data"
 end
 
-# Acelera el watcher en Windows.
-gem "wdm", "~> 0.2", platforms: [:mingw, :x64_mingw, :mswin]
+# Acelera el vigilante de archivos en Windows. En Linux no se instala.
+gem "wdm", "~> 0.2", platforms: :windows
 
 # Desde Ruby 3.4 estas dejaron de venir de serie.
 gem "csv"

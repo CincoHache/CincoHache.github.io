@@ -33,6 +33,12 @@ jobs:
       - name: Configurar Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Enciende Pages en modo «GitHub Actions» si aún no lo está, en vez
+          # de depender de que alguien lo cambie a mano en Settings. Sin esto,
+          # el constructor antiguo de GitHub sigue mandando y publica el SCSS
+          # sin compilar, porque su Jekyll 3 no entiende `@use`.
+          enablement: true
 
       - name: Construir el sitio
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
