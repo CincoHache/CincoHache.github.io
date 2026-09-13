@@ -33,6 +33,11 @@
           {%- for s in site.data.secciones %}
           <a class="pildora" href="{{ s.url | relative_url }}">{{ s.plural }}</a>
           {%- endfor %}
+          {%- assign _hay_favoritos = false -%}
+          {%- for e in site.posts %}{% if e.favoritos and e.favoritos.size > 0 %}{% assign _hay_favoritos = true %}{% break %}{% endif %}{% endfor -%}
+          {%- if _hay_favoritos %}
+          <a class="pildora" href="{{ '/favoritos/' | relative_url }}">Favoritos</a>
+          {%- endif %}
           <a class="pildora" href="{{ '/acerca/' | relative_url }}">Sobre mí</a>
         </nav>
       </div>

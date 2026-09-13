@@ -1,0 +1,122 @@
+---
+layout: default
+title: Favoritos
+permalink: /favoritos/
+description: Todo lo que he recomendado en Cinco Hache — canciones, libros, películas, sitios — con filtros y buscador.
+---
+{%- comment -%}
+  La página que crece.
+
+  Esto no es una entrada: es la suma de todas. Cada ficha que se escribe en
+  el apartado «Favoritos» de cualquier entrada aparece aquí para siempre,
+  con un enlace al mes en que se recomendó.
+
+  Es la diferencia entre doce entradas al año que se hunden en el archivo y
+  un listado que la gente vuelve a consultar. La idea no es mía: es lo que
+  hace Dan Wang con su lista de libros, y es lo más citado de su web.
+
+  Todo se monta al compilar, con Jekyll. El navegador solo filtra y busca
+  sobre algo que ya está pintado: sin JavaScript la página se lee entera,
+  ordenada por fecha, y lo único que se pierde son los botones.
+{%- endcomment -%}
+
+{%- comment -%} Recoger las fichas de todas las entradas, de la más nueva a la más vieja. {%- endcomment -%}
+{%- assign _entradas = site.posts | sort: "date" | reverse -%}
+{%- assign _total = 0 -%}
+{%- for e in _entradas %}{% if e.favoritos %}{% assign _total = _total | plus: e.favoritos.size %}{% endif %}{% endfor -%}
+
+<div class="listado envoltura">
+
+  <header class="listado__cabecera">
+    <h1 class="listado__titulo titular">Favoritos</h1>
+    <p class="listado__guia">
+      {%- if _total > 0 -%}
+        Todo lo que he recomendado desde que existe esto. {{ _total }}
+        {% if _total == 1 %}cosa{% else %}cosas{% endif %}, de la última a la primera.
+      {%- else -%}
+        Aquí se irá juntando lo que recomiende en cada entrada: canciones,
+        libros, películas, sitios. Todavía no hay nada.
+      {%- endif -%}
+    </p>
+  </header>
+
+  {%- if _total > 0 %}
+
+  <div class="listado__mandos">
+    <div class="mandos">
+      <div class="buscador">
+        <span class="lupa buscador__lupa" aria-hidden="true"></span>
+        <label class="visualmente-oculto" for="buscar-favoritos">Buscar entre los favoritos</label>
+        <input class="buscador__campo" type="search" id="buscar-favoritos"
+               placeholder="Buscar un título, un nombre…" autocomplete="off"
+               data-buscar-favoritos>
+      </div>
+    </div>
+
+    <div class="filtros" role="group" aria-label="Filtrar por tipo">
+      {%- for m in site.data.medios %}
+      {%- assign _cuantos = 0 -%}
+      {%- for e in _entradas %}{% if e.favoritos %}{% for f in e.favoritos %}{% if f.tipo == m.id %}{% assign _cuantos = _cuantos | plus: 1 %}{% endif %}{% endfor %}{% endif %}{% endfor -%}
+      {%- comment -%} Un filtro que no filtraría nada no se pinta. {%- endcomment -%}
+      {%- if _cuantos > 0 %}
+      <button class="filtro" type="button" data-medio="{{ m.id }}" aria-pressed="false">
+        {{ m.plural }} <span class="filtro__cuenta">{{ _cuantos }}</span>
+      </button>
+      {%- endif %}
+      {%- endfor %}
+    </div>
+
+    <div class="aviso-filtro" id="aviso-favoritos" hidden>
+      <span id="aviso-favoritos-texto"></span>
+      <button type="button" id="quitar-favoritos">Quitar filtros ✕</button>
+    </div>
+  </div>
+
+  <ol class="fichas fichas--listado" data-lista-favoritos>
+    {%- for e in _entradas %}
+    {%- if e.favoritos %}
+    {%- for f in e.favoritos %}
+    {%- assign _m = site.data.medios | where: "id", f.tipo | first -%}
+    {%- unless _m %}{% assign _m = site.data.medios | where: "id", "otro" | first %}{% endunless -%}
+    <li class="ficha ficha--{{ _m.id }}"
+        data-medio="{{ _m.id }}"
+        data-busca="{{ f.titulo | append: ' ' | append: f.quien | append: ' ' | append: f.nota | append: ' ' | append: _m.nombre | strip_newlines | downcase | escape }}">
+      <span class="ficha__tipo">{{ _m.nombre }}</span>
+
+      <span class="ficha__cuerpo">
+        <span class="ficha__cabeza">
+          {%- if f.url and f.url != "" %}
+          <a class="ficha__titulo" href="{{ f.url }}" rel="noopener">{{ f.titulo }}</a>
+          {%- else %}
+          <span class="ficha__titulo">{{ f.titulo }}</span>
+          {%- endif %}
+          {%- if f.quien and f.quien != "" %}
+          <span class="ficha__quien">{{ f.quien }}</span>
+          {%- endif %}
+        </span>
+
+        {%- if f.nota and f.nota != "" %}
+        <span class="ficha__nota">{{ f.nota }}</span>
+        {%- endif %}
+
+        {%- comment -%}
+          Jekyll no localiza `%B`: con él salía «August de 2026». Los meses
+          en español viven en _data/es.yml.
+        {%- endcomment -%}
+        {%- assign _mes = e.date | date: "%-m" | minus: 1 -%}
+        <a class="ficha__origen" href="{{ e.url | relative_url }}">
+          {{ site.data.es.meses[_mes] }} de {{ e.date | date: "%Y" }}
+        </a>
+      </span>
+    </li>
+    {%- endfor %}
+    {%- endif %}
+    {%- endfor %}
+  </ol>
+
+  <p class="listado__vacio" id="favoritos-sin-resultados" hidden>
+    No hay nada que case con eso.
+  </p>
+
+  {%- endif %}
+</div>

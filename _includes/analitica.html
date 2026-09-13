@@ -1,0 +1,47 @@
+{%- comment -%}
+  GoatCounter: cuántos han pasado por aquí, sin saber quiénes son.
+
+  El pie del blog promete «sin rastreadores, sin cookies, sin anuncios». Eso
+  es una promesa, no un adorno, y descarta Google Analytics de entrada: usa
+  cookies, obliga a poner banner de consentimiento y convierte esa línea del
+  pie en mentira.
+
+  GoatCounter no pone cookies, no guarda identificadores, no sigue a nadie
+  entre sitios y no necesita banner. Cuenta páginas vistas, de dónde vienen
+  y poco más, que es todo lo que hace falta saber.
+
+  Dos cosas que hace este bloque y no hace el fragmento que te dan ellos:
+
+  · **No cuenta cuando eres tú en tu ordenador.** Sin esto, recargar la
+    página mientras escribes ensucia los números desde el primer día.
+  · **Respeta «no quiero que me sigan».** Quien lleva puesto el aviso de no
+    rastreo del navegador no se cuenta. Pierdes unas cuantas visitas y
+    ganas coherencia con lo que dice tu propio pie.
+
+  Y lo de siempre: si el script no carga —bloqueador, caída, lo que sea— la
+  página no se entera. `async` y nada que dependa de él.
+
+  Para encenderlo: crea la cuenta en goatcounter.com, elige un código de
+  sitio, y ponlo en `analitica: goatcounter:` de _config.yml.
+{%- endcomment -%}
+
+{%- if site.analitica.goatcounter and site.analitica.goatcounter != "" %}
+<script>
+  (function () {
+    // En casa no se cuenta.
+    var local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+    // Y quien pide que no le sigan, no se le sigue.
+    var noQuiere = navigator.doNotTrack === "1" ||
+                   window.doNotTrack === "1" ||
+                   navigator.msDoNotTrack === "1";
+    if (local || noQuiere) return;
+
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "//gc.zgo.at/count.js";
+    s.setAttribute("data-goatcounter",
+      "https://{{ site.analitica.goatcounter }}.goatcounter.com/count");
+    document.head.appendChild(s);
+  })();
+</script>
+{%- endif %}

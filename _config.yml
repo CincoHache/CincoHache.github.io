@@ -79,8 +79,12 @@ comentarios:
   aviso: >-
     Se publica al momento. Si algo no debería estar, se quita.
 
+# Apagada de momento. El código está entero y funciona; lo que falta es un
+# dominio propio para poder mandar los correos de confirmación a
+# desconocidos, y eso se ve más adelante. Con `activa: false` no se pinta
+# nada, ni en el pie ni en la barra.
 newsletter:
-  activa: true
+  activa: false
   titulo: "Newsletter"
   gancho: "Lo que se publique, en tu correo. Nada más."
   # Aparece bajo el formulario. Es una promesa, así que conviene cumplirla.
@@ -88,6 +92,18 @@ newsletter:
     Un correo por entrada, sin resúmenes ni recordatorios. Te puedes dar de
     baja de un clic desde cualquiera de ellos, y tu dirección no se le da a
     nadie.
+
+# ─────────────────────────────────────────────────────────────
+#  ANALÍTICA
+#
+#  GoatCounter: sin cookies, sin identificadores, sin banner de consentimiento
+#  y sin traicionar lo que promete el pie. El código del sitio es lo que hay
+#  entre https:// y .goatcounter.com en tu panel.
+#
+#  Vacío no carga nada.
+
+analitica:
+  goatcounter: ""
 
 # ─────────────────────────────────────────────────────────────
 #  SEO

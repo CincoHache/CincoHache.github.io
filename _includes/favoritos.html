@@ -1,0 +1,64 @@
+{%- comment -%}
+  Los favoritos de una entrada.
+
+  Van al final del texto, antes de las fuentes. Cada uno es una ficha con su
+  tipo, el título, quién lo hizo y una reseña de una o dos líneas.
+
+  Los datos vienen del front matter, que escribe la herramienta a partir del
+  apartado «Favoritos» del documento:
+
+    favoritos:
+      - tipo: cancion
+        titulo: "Nombre de la canción"
+        quien:  "Artista"
+        nota:   "Por qué está aquí"
+        url:    "https://…"
+
+  `quien`, `nota` y `url` son opcionales: un título suelto también vale.
+
+  Lo importante de este bloque no es este bloque. Cada ficha que se escribe
+  aquí aparece además, para siempre, en /favoritos/ — que es lo que hace que
+  una entrada mensual valga algo dentro de dos años en vez de hundirse en el
+  archivo.
+{%- endcomment -%}
+
+{%- assign _favs = include.favoritos | default: page.favoritos -%}
+{%- if _favs and _favs.size > 0 %}
+
+<section class="favoritos" aria-labelledby="rotulo-favoritos">
+  <div class="favoritos__cabecera">
+    <h2 class="favoritos__titulo" id="rotulo-favoritos">
+      {{ include.titulo | default: "Lo que me ha gustado" }}
+    </h2>
+    <a class="favoritos__enlace" href="{{ '/favoritos/' | relative_url }}">Todo el listado →</a>
+  </div>
+
+  <ol class="fichas">
+    {%- for f in _favs %}
+    {%- assign _m = site.data.medios | where: "id", f.tipo | first -%}
+    {%- unless _m %}{% assign _m = site.data.medios | where: "id", "otro" | first %}{% endunless -%}
+    <li class="ficha ficha--{{ _m.id }}">
+      <span class="ficha__tipo">{{ _m.nombre }}</span>
+
+      <span class="ficha__cuerpo">
+        <span class="ficha__cabeza">
+          {%- if f.url and f.url != "" %}
+          <a class="ficha__titulo" href="{{ f.url }}" rel="noopener">{{ f.titulo }}</a>
+          {%- else %}
+          <span class="ficha__titulo">{{ f.titulo }}</span>
+          {%- endif %}
+          {%- if f.quien and f.quien != "" %}
+          <span class="ficha__quien">{{ f.quien }}</span>
+          {%- endif %}
+        </span>
+
+        {%- if f.nota and f.nota != "" %}
+        <span class="ficha__nota">{{ f.nota }}</span>
+        {%- endif %}
+      </span>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
+
+{%- endif %}

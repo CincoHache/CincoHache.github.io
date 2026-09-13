@@ -60,7 +60,7 @@
       return (s || "")
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "");
+        .replace(/[\u0300-\u036f]/g, "");
     }
 
     function filtrar() {
@@ -202,5 +202,84 @@
         });
       }
     });
+  }
+  /* ── Los favoritos ────────────────────────────────────────────────────
+   *
+   * Filtra y busca sobre fichas que Jekyll ya ha pintado. Sin JavaScript la
+   * página se lee entera, ordenada por fecha; lo único que se pierde son
+   * los botones. Por eso no hay nada aquí que construya contenido.
+   */
+
+  var campoFav = document.querySelector("[data-buscar-favoritos]");
+  var fichas = [].slice.call(document.querySelectorAll("[data-lista-favoritos] .ficha"));
+
+  if (campoFav && fichas.length) {
+    var botonesMedio = [].slice.call(document.querySelectorAll("[data-medio][aria-pressed]"));
+    var vacioFav = document.getElementById("favoritos-sin-resultados");
+    var avisoFav = document.getElementById("aviso-favoritos");
+    var avisoFavTexto = document.getElementById("aviso-favoritos-texto");
+    var quitarFav = document.getElementById("quitar-favoritos");
+    var medioActivo = "";
+
+    function limpiarTexto(s) {
+      return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function filtrarFavoritos() {
+      var consulta = limpiarTexto(campoFav.value.trim());
+      var visibles = 0;
+
+      fichas.forEach(function (ficha) {
+        var texto = limpiarTexto(ficha.getAttribute("data-busca"));
+        var delMedio = !medioActivo || ficha.getAttribute("data-medio") === medioActivo;
+        var casa = !consulta || texto.indexOf(consulta) !== -1;
+        var mostrar = casa && delMedio;
+        ficha.hidden = !mostrar;
+        if (mostrar) visibles++;
+      });
+
+      if (vacioFav) vacioFav.hidden = visibles !== 0;
+
+      var hayFiltro = consulta || medioActivo;
+      if (avisoFav) {
+        avisoFav.hidden = !hayFiltro;
+        if (hayFiltro && avisoFavTexto) {
+          avisoFavTexto.textContent =
+            visibles + (visibles === 1 ? " ficha" : " fichas");
+        }
+      }
+    }
+
+    campoFav.addEventListener("input", filtrarFavoritos);
+
+    botonesMedio.forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        var id = boton.getAttribute("data-medio");
+        medioActivo = medioActivo === id ? "" : id;
+        botonesMedio.forEach(function (b) {
+          b.setAttribute("aria-pressed", b.getAttribute("data-medio") === medioActivo);
+        });
+        filtrarFavoritos();
+      });
+    });
+
+    if (quitarFav) {
+      quitarFav.addEventListener("click", function () {
+        campoFav.value = "";
+        medioActivo = "";
+        botonesMedio.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+        filtrarFavoritos();
+        campoFav.focus();
+      });
+    }
+
+    /* Entrar desde otra página con el filtro puesto: /favoritos/#libro */
+    var ancla = (location.hash || "").replace("#", "");
+    if (ancla) {
+      var elegido = botonesMedio.filter(function (b) {
+        return b.getAttribute("data-medio") === ancla;
+      })[0];
+      if (elegido) elegido.click();
+    }
   }
 })();

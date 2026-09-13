@@ -1,0 +1,199 @@
+@use "variables" as *;
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Favoritos
+
+   Las mismas fichas en dos sitios: al final de una entrada, donde son el
+   remate, y en /favoritos/, donde son el listado entero. Cambia el ancho y
+   poco más, a propósito: quien ve una en el artículo tiene que reconocerla
+   al llegar al listado.
+
+   La retícula de cada ficha es de tres partes —tipo, cuerpo, reseña— y el
+   tipo va en una columna fija a la izquierda para que el ojo pueda bajar
+   leyendo solo esa columna y saltarse lo demás.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.favoritos {
+  padding-block: clamp(2rem, 5vw, 3rem);
+  border-top: 1px solid var(--linea);
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+.favoritos__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e-3);
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.favoritos__titulo {
+  font-family: var(--f-titular);
+  font-size: var(--t-h2);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.favoritos__enlace {
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.06em;
+  color: var(--acento);
+  white-space: nowrap;
+
+  &:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+}
+
+/* --- La ficha --- */
+
+.fichas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ficha {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: var(--e-4);
+  align-items: baseline;
+  padding-block: 1.125rem;
+  border-top: 1px solid var(--linea);
+
+  &:first-child { border-top: 0; }
+
+  /* En móvil el tipo se pone encima: a 7,5 rem de columna fija no le queda
+     sitio al título, y partir un título por la mitad es peor que perder
+     la alineación. */
+  @media (max-width: 34rem) {
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+}
+
+.ficha__tipo {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tenue);
+  padding-top: 0.25em;
+}
+
+.ficha__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  min-width: 0;
+}
+
+.ficha__cabeza {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+
+.ficha__titulo {
+  font-family: var(--f-titular);
+  font-size: 1.1875rem;
+  line-height: 1.25;
+  color: var(--tinta);
+}
+
+a.ficha__titulo {
+  color: var(--tinta);
+  border-bottom: 1px solid var(--linea-2);
+  transition: color var(--t-rapido) var(--curva),
+              border-color var(--t-rapido) var(--curva);
+
+  &:hover { color: var(--acento); border-bottom-color: currentColor; }
+}
+
+.ficha__quien {
+  font-family: var(--f-texto);
+  font-style: italic;
+  font-size: 0.9375rem;
+  color: var(--tinta-3);
+}
+
+.ficha__nota {
+  font-family: var(--f-texto);
+  font-size: var(--t-resumen);
+  line-height: 1.65;
+  color: var(--tinta-2);
+  max-width: 58ch;
+}
+
+/* De qué entrada salió. Solo en el listado: dentro de una entrada sobra. */
+.ficha__origen {
+  font-family: var(--f-mono);
+  font-size: var(--t-rotulo-s);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tenue);
+  margin-top: 0.25rem;
+
+  &:hover { color: var(--acento); }
+}
+
+/* --- La página del listado --- */
+
+.listado {
+  padding-block: clamp(2rem, 6vw, 4rem);
+}
+
+.listado__cabecera {
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.listado__titulo {
+  font-size: clamp(2.125rem, 1.6rem + 2.6vw, 4rem);
+  line-height: 1;
+  margin: 0 0 0.875rem;
+}
+
+.listado__guia {
+  margin: 0;
+  font-family: var(--f-texto);
+  font-size: var(--t-guia);
+  line-height: 1.6;
+  color: var(--tinta-3);
+  max-width: 54ch;
+}
+
+.listado__mandos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--linea);
+  margin-bottom: 0.5rem;
+}
+
+.listado__vacio {
+  padding-block: 3rem;
+  text-align: center;
+  font-family: var(--f-texto);
+  font-size: var(--t-guia);
+  color: var(--tenue);
+}
+
+.filtro__cuenta {
+  font-size: 0.85em;
+  color: var(--tenue);
+  margin-left: 0.375rem;
+}
+
+.filtro[aria-pressed="true"] .filtro__cuenta { color: inherit; }
+
+/* Al imprimir, el listado entero y sin mandos. */
+@media print {
+  .listado__mandos,
+  .favoritos__enlace { display: none !important; }
+  .ficha { break-inside: avoid; }
+}

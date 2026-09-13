@@ -312,6 +312,46 @@ def main(destino: Path) -> int:
             ]
         return []
 
+    # ── El listado que crece ─────────────────────────────────────────────
+    # Si una entrada recomienda algo y eso no llega a /favoritos/, la página
+    # entera pierde el sentido: son doce entradas al año hundiéndose en el
+    # archivo, que es justo lo que se quería evitar.
+
+    @comprobar("Todo favorito de una entrada llega al listado")
+    def _():
+        posts = RAIZ / "_posts"
+        if not posts.is_dir():
+            return []
+
+        # Contar los títulos declarados en el front matter de las entradas.
+        declarados = 0
+        for archivo in posts.glob("*.md"):
+            texto = archivo.read_text(encoding="utf-8", errors="replace")
+            cabeza = texto.split("---")[1] if texto.startswith("---") else ""
+            dentro = False
+            for linea in cabeza.split("\n"):
+                if re.match(r"^favoritos:\s*$", linea):
+                    dentro = True
+                elif dentro and re.match(r"^\S", linea):
+                    dentro = False
+                elif dentro and re.match(r"^\s+-\s+tipo:", linea):
+                    declarados += 1
+
+        pagina = destino / "favoritos" / "index.html"
+        if declarados and not pagina.exists():
+            return [f"hay {declarados} favoritos escritos y no existe /favoritos/"]
+        if not declarados:
+            return []
+
+        html = pagina.read_text(encoding="utf-8", errors="replace")
+        pintados = html.count('class="ficha ficha--')
+        if pintados < declarados:
+            return [
+                f"{declarados} favoritos escritos en las entradas y solo "
+                f"{pintados} en /favoritos/"
+            ]
+        return []
+
     # ── Lo que se ve al compartir un enlace ──────────────────────────────
     # Un enlace sin imagen sale como un rectángulo de texto gris y casi nadie
     # lo pincha. Y jekyll-seo-tag, con la configuración a medias, llegó a

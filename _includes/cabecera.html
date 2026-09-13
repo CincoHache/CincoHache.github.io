@@ -33,6 +33,21 @@
         <span>Trabajos</span>
       </a>
 
+      {%- comment -%}
+        Favoritos solo aparece cuando hay algo que enseñar. Un menú con una
+        página vacía dentro es peor que un menú más corto.
+      {%- endcomment -%}
+      {%- assign _hay_favoritos = false -%}
+      {%- for e in site.posts %}{% if e.favoritos and e.favoritos.size > 0 %}{% assign _hay_favoritos = true %}{% break %}{% endif %}{% endfor -%}
+      {%- if _hay_favoritos %}
+      <a class="menu__enlace{% if _u == '/favoritos/' %} menu__enlace--activo{% endif %}"
+         href="{{ '/favoritos/' | relative_url }}"
+         {% if _u == '/favoritos/' %}aria-current="page"{% endif %}>
+        {%- if _u == '/favoritos/' %}<span class="menu__punto" aria-hidden="true"></span>{% endif -%}
+        <span>Favoritos</span>
+      </a>
+      {%- endif %}
+
       <a class="menu__enlace{% if _u == '/acerca/' %} menu__enlace--activo{% endif %}"
          href="{{ '/acerca/' | relative_url }}"
          {% if _u == '/acerca/' %}aria-current="page"{% endif %}>

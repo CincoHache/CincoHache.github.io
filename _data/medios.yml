@@ -1,0 +1,77 @@
+# Los tipos de cosa que caben en «Favoritos».
+#
+# De aquí salen los filtros de la página /favoritos/, los rótulos de cada
+# ficha y la lista que reconoce la herramienta al leer el documento. Añadir
+# uno nuevo es añadirlo aquí: no hay que tocar nada más.
+#
+#   id      : lo que va en `tipo:` del front matter. Sin tildes ni ñ.
+#   nombre  : como se escribe en la ficha.
+#   plural  : el rótulo del filtro.
+#   alias   : otras formas de escribirlo en el documento de Google Docs.
+#             La herramienta las reconoce todas y guarda siempre el `id`.
+#   quien   : cómo se llama a quien lo hizo. Cambia según el medio, y poner
+#             «autor» en una canción queda raro.
+
+- id: cancion
+  nombre: Canción
+  plural: Canciones
+  quien: Artista
+  alias: [cancion, canciones, tema, single]
+
+- id: disco
+  nombre: Disco
+  plural: Discos
+  quien: Artista
+  alias: [disco, discos, album, álbum, lp, ep]
+
+- id: pelicula
+  nombre: Película
+  plural: Películas
+  quien: Dirección
+  alias: [pelicula, película, peliculas, películas, cine, film]
+
+- id: serie
+  nombre: Serie
+  plural: Series
+  quien: Creación
+  alias: [serie, series, temporada]
+
+- id: libro
+  nombre: Libro
+  plural: Libros
+  quien: Autoría
+  alias: [libro, libros, novela, ensayo, poemario, comic, cómic, tebeo]
+
+- id: articulo
+  nombre: Artículo
+  plural: Artículos
+  quien: Firma
+  alias: [articulo, artículo, articulos, artículos, reportaje, texto, newsletter]
+
+- id: podcast
+  nombre: Podcast
+  plural: Podcasts
+  quien: Autoría
+  alias: [podcast, podcasts, episodio, audio, radio]
+
+# La hostelería es el oficio, así que un sitio donde se come o se bebe es
+# una recomendación como cualquier otra.
+- id: sitio
+  nombre: Sitio
+  plural: Sitios
+  quien: Dónde
+  alias: [sitio, sitios, bar, restaurante, taberna, local, cafeteria, cafetería]
+
+- id: exposicion
+  nombre: Exposición
+  plural: Exposiciones
+  quien: Dónde
+  alias: [exposicion, exposición, exposiciones, muestra, museo, obra, teatro]
+
+# El cajón de sastre. Lo que no encaje en nada acaba aquí en vez de
+# perderse, que es la regla de toda la herramienta.
+- id: otro
+  nombre: Otro
+  plural: Otros
+  quien: Quién
+  alias: [otro, otros, varios, cosa]
