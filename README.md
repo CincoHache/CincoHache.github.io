@@ -34,7 +34,7 @@ usa la herramienta de publicación.
 |---|---|---|
 | Ensayo | `ensayo` | Pensar despacio algo que no se resuelve en una tarde |
 | Artículo de opinión | `opinion` | Lo que hay que decir cuando hay que decirlo |
-| Proyecto | `proyecto` | Encargos y trabajo propio. Sale en «Trabajo seleccionado» |
+| Proyecto | `proyecto` | Trabajo propio. Sale en «Trabajo seleccionado» |
 | Otros | `otros` | Reseñas, fotoreportajes, diario y lo que no cabe en otro sitio |
 
 `genero:` afina una entrada dentro de su sección —«Reseña» dentro de «Otros»—

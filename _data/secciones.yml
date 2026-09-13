@@ -36,10 +36,10 @@
   plural: Proyectos
   url: /proyecto/
   aperturas: [plana, mezcla, sangre, ninguna]
-  generos: [Proyecto, Ensayo visual, Encargo, Publicación]
+  generos: [Proyecto, Ensayo visual, Publicación]
   voz: false
   portfolio: true
-  lema: "Encargos y trabajo propio: investigación, edición y fotografía."
+  lema: "Trabajo propio: investigación, edición y fotografía."
 
 - id: otros
   nombre: Otros
