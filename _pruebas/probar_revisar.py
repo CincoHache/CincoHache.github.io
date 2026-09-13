@@ -142,6 +142,27 @@ def revisar(sitio: Path) -> tuple[int, str]:
     return r.returncode, (r.stdout or "") + (r.stderr or "")
 
 
+# Lo contrario de una avería: algo que PARECE un problema y no lo es. Si
+# esto empieza a fallar, la comprobación se ha vuelto demasiado nerviosa y
+# hay que apretarla, no relajar el sitio.
+FALSAS_ALARMAS = [
+    (
+        "un placeholder= de toda la vida",
+        lambda sitio: (sitio / "index.html").write_text(
+            (sitio / "index.html").read_text(encoding="utf-8").replace(
+                "</body>", '<input placeholder="tu@correo.com"></body>'),
+            encoding="utf-8"),
+    ),
+    (
+        "una clase que se llama «todo:»",
+        lambda sitio: (sitio / "index.html").write_text(
+            (sitio / "index.html").read_text(encoding="utf-8").replace(
+                "</body>", '<script>var x = "TODO: nada";</script></body>'),
+            encoding="utf-8"),
+    ),
+]
+
+
 def main() -> int:
     original = RAIZ / "_site"
     if not original.is_dir():
@@ -173,6 +194,19 @@ def main() -> int:
                 malas.append(f"{nombre}: lo detecta la comprobación equivocada")
             else:
                 print(f"  la pilla   {nombre}")
+
+    print(f"\nY {len(FALSAS_ALARMAS)} cosas que parecen averías y no lo son\n")
+    for nombre, tocar in FALSAS_ALARMAS:
+        with tempfile.TemporaryDirectory(prefix="ch-revisar-") as tmp:
+            copia = Path(tmp) / "sitio"
+            shutil.copytree(original, copia)
+            tocar(copia)
+            codigo, salida = revisar(copia)
+            if codigo != 0:
+                print(f"  SE ASUSTA  {nombre}")
+                malas.append(f"{nombre}: falso positivo")
+            else:
+                print(f"  no pica    {nombre}")
 
     print()
     if malas:

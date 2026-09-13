@@ -178,11 +178,4 @@ layout: default
 </section>
 {%- endif %}
 
-{%- if site.comentarios.activos %}
-<section class="comentarios envoltura" aria-labelledby="rotulo-comentarios">
-  <div class="bloque__cabecera">
-    <h2 class="bloque__titulo" id="rotulo-comentarios">Comentarios</h2>
-  </div>
-  <div class="comentarios__caja" id="comentarios"></div>
-</section>
-{%- endif %}
+{%- include comentarios.html -%}

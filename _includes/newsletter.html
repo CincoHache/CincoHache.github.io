@@ -1,0 +1,48 @@
+{%- comment -%}
+  El formulario de la newsletter. Va en el pie, así que sale en todas las
+  páginas, y la casilla «Newsletter» de la barra de abajo apunta aquí.
+
+  Como el bloque de comentarios: si Supabase no está configurado, esto no se
+  pinta y el pie queda exactamente como estaba. Nada a medias.
+
+  Se apunta en dos pasos —escribes el correo, y entras cuando pinchas el
+  enlace que te llega—. No es un trámite de más: sin ese clic cualquiera
+  podría apuntar el correo de otro, y en España hay que poder demostrar que
+  la persona dijo que sí.
+{%- endcomment -%}
+
+{%- assign _n = site.newsletter -%}
+{%- if _n.activa and site.supabase.url != "" and site.supabase.clave != "" %}
+
+<div class="pie__bloque boletin" id="newsletter" data-newsletter>
+  <span class="pie__rotulo">{{ _n.titulo }}</span>
+
+  {%- if _n.gancho %}
+  <p class="boletin__gancho">{{ _n.gancho }}</p>
+  {%- endif %}
+
+  <form class="boletin__forma" data-formulario novalidate>
+    <label class="boletin__campo">
+      <span class="visualmente-oculto">Tu correo</span>
+      <input class="campo__caja" type="email" name="correo" required
+             maxlength="254" autocomplete="email" inputmode="email"
+             spellcheck="false" placeholder="tu@correo.com">
+    </label>
+
+    <div class="trampa" aria-hidden="true">
+      <label>No rellenes esto
+        <input type="text" name="web" tabindex="-1" autocomplete="off">
+      </label>
+    </div>
+
+    <button class="boton" type="submit" data-enviar>Apuntarme</button>
+  </form>
+
+  <p class="boletin__aviso" data-aviso role="status" aria-live="polite" hidden></p>
+
+  {%- if _n.letra_pequena %}
+  <p class="boletin__letra-pequena">{{ _n.letra_pequena }}</p>
+  {%- endif %}
+</div>
+
+{%- endif %}

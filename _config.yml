@@ -49,12 +49,42 @@ redes:
     url: "https://bsky.app/profile/"
 
 # --- Comentarios ----------------------------------------------
-# Cuando se active, hay que añadir el fragmento de giscus o utterances
-# en _includes. Mientras `activos` sea false, el bloque no se pinta.
+# ─────────────────────────────────────────────────────────────
+#  COMENTARIOS Y NEWSLETTER
+#
+#  Las dos cosas viven en el mismo proyecto de Supabase. Todo lo que hay
+#  que hacer para ponerlas en marcha está en _comentarios/LEEME.md.
+#
+#  La clave de abajo es **pública a propósito**: la ve cualquiera con el
+#  botón derecho del ratón, y no pasa nada. Solo sirve para leer
+#  comentarios ya publicados. Escribir se escribe por otra puerta, con
+#  una llave distinta que nunca sale del servidor.
+
+supabase:
+  url: ""          # https://xxxxxxxxxxxx.supabase.co
+  clave: ""        # la clave «anon public» del panel
+
 comentarios:
-  activos: false
-  sistema: giscus
-  repositorio: ""
+  # En false, el bloque no se pinta y el artículo queda exactamente como
+  # está ahora. Nada de lo demás cambia.
+  activos: true
+  titulo: "Comentarios"
+  # Lo que se lee encima del formulario.
+  invitacion: >-
+    No hace falta registrarse. Pon cómo quieres que te llame y, si te apetece,
+    tu Instagram.
+  aviso: >-
+    Se publica al momento. Si algo no debería estar, se quita.
+
+newsletter:
+  activa: true
+  titulo: "Newsletter"
+  gancho: "Lo que se publique, en tu correo. Nada más."
+  # Aparece bajo el formulario. Es una promesa, así que conviene cumplirla.
+  letra_pequena: >-
+    Un correo por entrada, sin resúmenes ni recordatorios. Te puedes dar de
+    baja de un clic desde cualquiera de ellos, y tu dirección no se le da a
+    nadie.
 
 # ─────────────────────────────────────────────────────────────
 #  SEO

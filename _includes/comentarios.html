@@ -1,0 +1,94 @@
+{%- comment -%}
+  Los comentarios de una entrada.
+
+  Sin registro: basta un apodo. El Instagram es opcional y, si se pone, el
+  apodo se vuelve enlace a esa cuenta — que es justo lo que se pedía: poder
+  firmar con tu @ sin obligar a nadie a identificarse.
+
+  Dos decisiones que conviene no deshacer sin pensarlo:
+
+  · **Si Supabase no contesta, el artículo no se entera.** Este bloque se
+    pinta vacío y el JavaScript rellena lo que puede. Si la base de datos
+    está caída, o la clave mal puesta, o el lector tiene el JavaScript
+    apagado, lo que se ve es el artículo entero y bien. Nunca una página a
+    medias ni un error en mitad del texto.
+
+  · **El formulario sale antes que la lista.** En un blog que empieza, lo
+    normal es que no haya ningún comentario todavía, y una lista vacía
+    encabezando el bloque solo sirve para subrayarlo.
+{%- endcomment -%}
+
+{%- assign _c = site.comentarios -%}
+{%- if _c.activos and site.supabase.url != "" and site.supabase.clave != "" %}
+
+<section class="comentarios" id="comentarios"
+         data-comentarios
+         data-slug="{{ page.slug }}"
+         aria-labelledby="rotulo-comentarios">
+
+  <div class="comentarios__cabecera">
+    <h2 class="comentarios__titulo" id="rotulo-comentarios">{{ _c.titulo }}</h2>
+    <span class="comentarios__cuenta" data-cuenta hidden></span>
+  </div>
+
+  <form class="comentar" data-formulario novalidate>
+    {%- if _c.invitacion %}
+    <p class="comentar__invitacion">{{ _c.invitacion }}</p>
+    {%- endif %}
+
+    <div class="comentar__fila">
+      <label class="campo">
+        <span class="campo__rotulo">Cómo te llamas</span>
+        <input class="campo__caja" type="text" name="apodo" maxlength="40"
+               required autocomplete="nickname" placeholder="Un nombre o un apodo">
+      </label>
+
+      <label class="campo">
+        <span class="campo__rotulo">Tu Instagram <em>(si quieres)</em></span>
+        <span class="campo__conarroba">
+          <span class="campo__arroba" aria-hidden="true">@</span>
+          <input class="campo__caja campo__caja--arroba" type="text" name="instagram"
+                 maxlength="30" autocomplete="off" spellcheck="false"
+                 pattern="[A-Za-z0-9._]{1,30}" placeholder="tucuenta">
+        </span>
+      </label>
+    </div>
+
+    <label class="campo">
+      <span class="campo__rotulo">Lo que quieras decir</span>
+      <textarea class="campo__caja campo__caja--area" name="texto" rows="4"
+                maxlength="2000" required
+                placeholder="Sin prisa."></textarea>
+    </label>
+
+    {%- comment -%}
+      La trampa. Está fuera de la vista y fuera del recorrido del tabulador,
+      así que una persona no puede llegar a ella ni queriendo. Los robots
+      rellenan todo lo que encuentran, y con eso se delatan. Se oculta desde
+      el CSS y no con `hidden`, porque muchos robots saltan lo que lleva
+      `hidden` precisamente por esto.
+    {%- endcomment -%}
+    <div class="trampa" aria-hidden="true">
+      <label>No rellenes esto
+        <input type="text" name="web" tabindex="-1" autocomplete="off">
+      </label>
+    </div>
+
+    <div class="comentar__pie">
+      <button class="boton" type="submit" data-enviar>Publicar</button>
+      <span class="comentar__restantes" data-restantes></span>
+    </div>
+
+    <p class="comentar__aviso" data-aviso role="status" aria-live="polite" hidden></p>
+
+    {%- if _c.aviso %}
+    <p class="comentar__letra-pequena">{{ _c.aviso }}</p>
+    {%- endif %}
+  </form>
+
+  <ol class="hilo" data-lista></ol>
+
+  <p class="comentarios__estado" data-estado>Cargando lo que ha dicho la gente…</p>
+</section>
+
+{%- endif %}

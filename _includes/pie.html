@@ -39,6 +39,8 @@
 
     </div>
 
+    {%- include newsletter.html -%}
+
     <div class="pie__bloque">
       <span class="pie__rotulo">Seguir el blog</span>
       {%- comment -%}
@@ -48,6 +50,11 @@
         identificador en _config.yml, se vuelve enlace sola.
       {%- endcomment -%}
       <div class="pie__redes">
+        {%- if site.newsletter.activa and site.supabase.url != "" and site.supabase.clave != "" %}
+        <a class="pie__red pie__red--boletin" href="#newsletter" data-ir-al-boletin>
+          <span>{{ site.newsletter.titulo }}</span><span aria-hidden="true">↓</span>
+        </a>
+        {%- endif %}
         {%- for r in site.redes %}
         {%- if r.id and r.id != "" %}
         <a class="pie__red" rel="me noopener" href="{{ r.url }}{{ r.id }}">

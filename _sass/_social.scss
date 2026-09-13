@@ -1,0 +1,326 @@
+@use "variables" as *;
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Comentarios y newsletter
+
+   Los dos formularios comparten la caja de campo (`.campo`), porque son la
+   misma cosa pidiendo datos distintos. Lo que cambia es el sitio: los
+   comentarios van al final del artículo, con el ancho de la prosa, y la
+   newsletter vive en el pie.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* La trampa para robots. Fuera de la vista sin usar `display:none` ni
+   `hidden`, que es lo primero que miran los que van a lo suyo. */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.visualmente-oculto {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* --- El campo, que es de los dos --- */
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.campo__rotulo {
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tenue);
+
+  em { font-style: normal; color: var(--tenue-2); text-transform: none; letter-spacing: 0.02em; }
+}
+
+.campo__caja {
+  width: 100%;
+  font-family: var(--f-texto);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  background-color: var(--fondo);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 0.6875rem 0.8125rem;
+  transition: border-color var(--t-rapido) var(--curva),
+              background-color var(--t-rapido) var(--curva);
+
+  &::placeholder { color: var(--tenue-2); opacity: 1; }
+
+  &:hover { border-color: var(--linea-2); }
+
+  /* Contorno de verdad, no un borde de color: quien navega con el teclado
+     tiene que ver dónde está sin depender de distinguir dos tonos. */
+  &:focus-visible {
+    border-color: var(--acento);
+    outline: 2px solid var(--acento);
+    outline-offset: 1px;
+  }
+}
+
+.campo__caja--area {
+  resize: vertical;
+  min-height: 6.5rem;
+}
+
+/* El @ de Instagram, pegado al campo para que se vea que no hay que
+   escribirlo. Es la diferencia entre que la gente ponga «@cuenta»,
+   «cuenta» o la URL entera. */
+.campo__conarroba {
+  position: relative;
+  display: block;
+}
+
+.campo__arroba {
+  position: absolute;
+  left: 0.8125rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--f-mono);
+  color: var(--tenue-2);
+  pointer-events: none;
+}
+
+.campo__caja--arroba { padding-left: 1.875rem; }
+
+/* --- El bloque de comentarios --- */
+
+.comentarios {
+  width: min(100% - (var(--margen) * 2), var(--ancho-prosa));
+  margin-inline: auto;
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  border-top: 1px solid var(--linea);
+}
+
+.comentarios__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--e-2);
+  margin-bottom: 1.75rem;
+}
+
+.comentarios__titulo {
+  font-family: var(--f-titular);
+  font-size: var(--t-h2);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.comentarios__cuenta,
+.comentarios__estado {
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.06em;
+  color: var(--tenue);
+}
+
+.comentarios__estado { display: block; padding-block: 1rem; }
+
+/* --- El formulario --- */
+
+.comentar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--fondo-3);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: clamp(1.125rem, 3vw, 1.75rem);
+}
+
+.comentar__invitacion {
+  margin: 0;
+  font-family: var(--f-texto);
+  font-size: var(--t-resumen);
+  line-height: 1.6;
+  color: var(--tinta-3);
+}
+
+.comentar__fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.comentar__pie {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  flex-wrap: wrap;
+}
+
+.comentar__restantes,
+.comentar__letra-pequena {
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  color: var(--tenue-2);
+}
+
+.comentar__letra-pequena { margin: 0; letter-spacing: 0.03em; }
+
+.comentar__aviso {
+  margin: 0;
+  font-family: var(--f-texto);
+  font-size: 0.9375rem;
+  color: var(--tinta-2);
+  padding: 0.625rem 0.8125rem;
+  border-left: 2px solid var(--acento);
+  background-color: var(--fondo);
+
+  &.es-error {
+    border-left-color: #991B1B;
+    color: var(--tinta);
+  }
+}
+
+/* --- El hilo --- */
+
+.hilo {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &:empty { margin: 0; }
+}
+
+.comentario {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--linea);
+
+  &:last-child { border-bottom: 0; padding-bottom: 0; }
+}
+
+.comentario__cabecera {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-2);
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.comentario__quien {
+  font-family: var(--f-titular);
+  font-size: 1.0625rem;
+  color: var(--tinta);
+}
+
+.comentario__quien--enlace {
+  color: var(--acento);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--t-rapido) var(--curva);
+
+  &:hover { border-bottom-color: currentColor; }
+}
+
+.comentario__cuando {
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.06em;
+  color: var(--tenue-2);
+}
+
+.comentario__texto {
+  margin: 0;
+  font-family: var(--f-texto);
+  font-size: var(--t-resumen);
+  line-height: 1.7;
+  color: var(--tinta-2);
+  /* El texto llega tal cual lo escribieron: los saltos de línea que puso
+     quien comenta son suyos y se respetan. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* --- La newsletter, en el pie --- */
+
+.boletin__gancho {
+  margin: 0 0 0.875rem;
+  font-family: var(--f-texto);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--tinta-3);
+  max-width: 32ch;
+}
+
+.boletin__forma {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  align-items: stretch;
+}
+
+.boletin__campo {
+  flex: 1 1 15rem;
+  min-width: 0;
+  display: block;
+}
+
+.boletin__aviso {
+  margin: 0.75rem 0 0;
+  font-family: var(--f-texto);
+  font-size: 0.9375rem;
+  color: var(--tinta-2);
+  border-left: 2px solid var(--acento);
+  padding-left: 0.75rem;
+
+  &.es-error { border-left-color: #991B1B; }
+}
+
+.boletin__letra-pequena {
+  margin: 0.875rem 0 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  color: var(--tenue-2);
+  max-width: 46ch;
+}
+
+/* La casilla de la barra: es la única que hoy lleva a algún sitio, así que
+   se distingue de las que todavía están pendientes. */
+.pie__red--boletin {
+  border-color: var(--linea-2);
+  color: var(--tinta-2);
+
+  span:last-child { color: var(--acento); }
+}
+
+/* --- Mientras se envía --- */
+
+.boton.esta-cargando {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.boton[disabled] { pointer-events: none; }
+
+/* --- Al imprimir --- */
+/* Un formulario en papel no sirve de nada; los comentarios ya escritos sí. */
+
+@media print {
+  .comentar,
+  .boletin__forma,
+  .comentarios__estado { display: none !important; }
+}

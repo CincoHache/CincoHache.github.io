@@ -15,5 +15,12 @@
   {%- include pie.html -%}
 
   <script src="{{ '/assets/js/sitio.js' | relative_url }}" defer></script>
+  {%- comment -%}
+    Comentarios y newsletter. Solo se baja si Supabase está configurado, y
+    con `defer`: si tardara o no llegara, el artículo ya está pintado.
+  {%- endcomment -%}
+  {%- if site.supabase.url != "" and site.supabase.clave != "" %}
+  <script src="{{ '/assets/js/social.js' | relative_url }}" defer></script>
+  {%- endif %}
 </body>
 </html>

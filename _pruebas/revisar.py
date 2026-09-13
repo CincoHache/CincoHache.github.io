@@ -68,6 +68,19 @@ def avisar(titulo: str, problemas: list[str]) -> None:
             print(f"         {p}")
 
 
+def _texto_visible(html: str) -> str:
+    """Lo que se lee en la página: sin etiquetas, sin guiones, sin código.
+
+    Los scripts y los estilos se quitan enteros, con su contenido: dentro
+    hay cadenas y nombres de clase que no los lee nadie y que dispararían
+    comprobaciones pensadas para el texto.
+    """
+    html = re.sub(r"<(script|style)\b.*?</\1\s*>", " ", html, flags=re.S | re.I)
+    html = re.sub(r"<!--.*?-->", " ", html, flags=re.S)
+    html = re.sub(r"<[^>]+>", " ", html)
+    return re.sub(r"\s+", " ", html)
+
+
 def main(destino: Path) -> int:
     if not destino.is_dir():
         print(f"No existe {destino}. ¿Has compilado el sitio?")
@@ -266,13 +279,17 @@ def main(destino: Path) -> int:
 
     @comprobar("No queda texto de relleno")
     def _():
+        # Hay que mirar el texto que se lee, no el HTML en crudo. Buscando en
+        # el HTML, un `placeholder="tu@correo.com"` —que es un atributo de
+        # toda la vida— se contaba como relleno, y con los formularios de
+        # comentarios y newsletter eso son todas las páginas del sitio.
         marcas = [
             "lorem ipsum", "pendiente:", "todo:", "texto de relleno",
             "placeholder", "xxxx", "sustitúyelo", "por determinar",
         ]
         problemas = []
         for pagina in paginas:
-            t = pagina.read_text(encoding="utf-8", errors="replace").lower()
+            t = _texto_visible(pagina.read_text(encoding="utf-8", errors="replace")).lower()
             for m in marcas:
                 if m in t:
                     problemas.append(f"{pagina.relative_to(destino)} contiene «{m}»")
