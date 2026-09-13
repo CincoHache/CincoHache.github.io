@@ -105,6 +105,15 @@
   letter-spacing: 0.06em;
 }
 
+/* Una casilla sin cuenta todavía: la misma caja, apagada, sin ser enlace. */
+.pie__red--pendiente {
+  color: var(--tenue);
+  border-style: dashed;
+  cursor: default;
+
+  &:hover { border-color: var(--linea); color: var(--tenue); }
+}
+
 .pie__red {
   display: flex;
   justify-content: space-between;

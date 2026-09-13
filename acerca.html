@@ -26,10 +26,6 @@ description: Quién escribe Cinco Hache, en qué trabaja y cómo dar con él.
         <a class="boton boton--hueco" href="{{ '/trabajos/' | relative_url }}">Ver el archivo</a>
       </div>
 
-      <div class="sobre__rss">
-        <a href="{{ '/feed.xml' | relative_url }}">Suscribirse por RSS</a>
-        <span class="sobre__rss-url">{{ '/feed.xml' | absolute_url | remove: "https://" }}</span>
-      </div>
     </div>
 
     <div class="sobre__retrato">
@@ -80,16 +76,13 @@ description: Quién escribe Cinco Hache, en qué trabaja y cómo dar con él.
         {%- if site.author.email and site.author.email != "" %}
         <a href="mailto:{{ site.author.email }}"><span>Correo</span><span>{{ site.author.email }}</span></a>
         {%- endif %}
-        {%- if site.redes.github and site.redes.github != "" %}
-        <a rel="me noopener" href="https://github.com/{{ site.redes.github }}"><span>GitHub</span><span>{{ site.redes.github }}</span></a>
+        {%- for r in site.redes %}
+        {%- if r.id and r.id != "" %}
+        <a rel="me noopener" href="{{ r.url }}{{ r.id }}"><span>{{ r.nombre }}</span><span>{{ r.id }}</span></a>
+        {%- else %}
+        <span class="lista-contacto__pendiente"><span>{{ r.nombre }}</span><span>pronto</span></span>
         {%- endif %}
-        {%- if site.redes.instagram and site.redes.instagram != "" %}
-        <a rel="me noopener" href="https://instagram.com/{{ site.redes.instagram }}"><span>Instagram</span><span>{{ site.redes.instagram }}</span></a>
-        {%- endif %}
-        {%- if site.redes.bluesky and site.redes.bluesky != "" %}
-        <a rel="me noopener" href="https://bsky.app/profile/{{ site.redes.bluesky }}"><span>Bluesky</span><span>{{ site.redes.bluesky }}</span></a>
-        {%- endif %}
-        <a href="{{ '/feed.xml' | relative_url }}"><span>RSS</span><span>/feed.xml</span></a>
+        {%- endfor %}
       </div>
     </div>
 

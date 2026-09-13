@@ -21,19 +21,32 @@ baseurl: ""
 
 # --- Autoría --------------------------------------------------
 author:
-  name: Jaime Vázquez de Prada
+  name: Jaime Vázquez de Prada Sáez
   email: ""          # si se rellena, aparece en el pie y en «Sobre mí»
   bio: >-
     Un ensayo largo al mes sobre atención, ciudad y tecnología.
     Este blog es a la vez cuaderno y portfolio.
   retrato: ""        # /assets/img/retrato.jpg
 
-# --- Redes (deja en blanco lo que no uses) ---------------------
+# --- Redes ----------------------------------------------------
+# El orden es el orden en que salen en el pie.
+#
+# Mientras un identificador esté vacío, la casilla aparece igual pero no
+# es un enlace: se ve que el sitio está ahí y no se manda a nadie a una
+# página que no existe. En cuanto lo rellenes, se vuelve enlace sola.
 redes:
-  github: "CincoHache"
-  instagram: ""
-  bluesky: ""
-  mastodon: ""
+  - nombre: Instagram
+    id: ""
+    url: "https://instagram.com/"
+  - nombre: X
+    id: ""
+    url: "https://x.com/"
+  - nombre: Substack
+    id: ""
+    url: "https://substack.com/@"
+  - nombre: Bluesky
+    id: ""
+    url: "https://bsky.app/profile/"
 
 # --- Comentarios ----------------------------------------------
 # Cuando se active, hay que añadir el fragmento de giscus o utterances
@@ -60,7 +73,7 @@ logo: /assets/img/marca/5h-logo-512.png
 
 # Perfiles para el `sameAs` del JSON-LD. Los rellena quien los tenga.
 social:
-  name: Jaime Vázquez de Prada
+  name: Jaime Vázquez de Prada Sáez
   links:
     - https://github.com/CincoHache
 

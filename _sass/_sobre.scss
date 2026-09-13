@@ -154,6 +154,19 @@
   letter-spacing: 0.04em;
 }
 
+.lista-contacto__pendiente {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--e-3);
+  border-bottom: 1px dashed var(--linea);
+  padding-bottom: var(--e-2);
+  min-height: 34px;
+  align-items: center;
+  color: var(--tenue);
+
+  span:last-child { color: var(--tenue-2); }
+}
+
 .lista-contacto a {
   display: flex;
   justify-content: space-between;

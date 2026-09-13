@@ -149,8 +149,27 @@ clase_body: body--portada
   </section>
   {%- endif %}
 
+  {%- comment -%}
+    Sin nada publicado, la portada no se queda en blanco: dice lo que va a
+    haber. Es el estado en el que más gente ve un blog nuevo, y el que menos
+    se suele cuidar.
+  {%- endcomment -%}
   {%- if _total == 0 %}
-  <p class="vacio">{{ site.data.es.textos.sin_entradas }}</p>
+  <section class="estreno">
+    <p class="sello"><span class="sello__seccion">Cinco Hache</span></p>
+    <h1 class="estreno__titular titular">Todavía no hay nada que leer</h1>
+    <p class="estreno__texto">
+      {{ site.description | strip_newlines | strip }}
+    </p>
+    <div class="estreno__secciones">
+      {%- for s in site.data.secciones %}
+      <div class="estreno__seccion">
+        <span class="estreno__nombre">{{ s.plural }}</span>
+        <span class="estreno__lema">{{ s.lema }}</span>
+      </div>
+      {%- endfor %}
+    </div>
+  </section>
   {%- endif %}
 
 </div>

@@ -41,30 +41,24 @@
 
     <div class="pie__bloque">
       <span class="pie__rotulo">Seguir el blog</span>
+      {%- comment -%}
+        Las casillas salen siempre, con enlace o sin él. Una casilla sin `id`
+        no es un <a>: se ve que la cuenta va a estar ahí, pero no se manda a
+        nadie a una página que todavía no existe. En cuanto se rellene el
+        identificador en _config.yml, se vuelve enlace sola.
+      {%- endcomment -%}
       <div class="pie__redes">
-        <a class="pie__red" href="{{ '/feed.xml' | relative_url }}">
-          <span>RSS</span><span aria-hidden="true">↗</span>
+        {%- for r in site.redes %}
+        {%- if r.id and r.id != "" %}
+        <a class="pie__red" rel="me noopener" href="{{ r.url }}{{ r.id }}">
+          <span>{{ r.nombre }}</span><span aria-hidden="true">↗</span>
         </a>
-        {%- if site.redes.github and site.redes.github != "" %}
-        <a class="pie__red" rel="me noopener" href="https://github.com/{{ site.redes.github }}">
-          <span>GitHub</span><span aria-hidden="true">↗</span>
-        </a>
+        {%- else %}
+        <span class="pie__red pie__red--pendiente">
+          <span>{{ r.nombre }}</span><span aria-hidden="true">↗</span>
+        </span>
         {%- endif %}
-        {%- if site.redes.instagram and site.redes.instagram != "" %}
-        <a class="pie__red" rel="me noopener" href="https://instagram.com/{{ site.redes.instagram }}">
-          <span>Instagram</span><span aria-hidden="true">↗</span>
-        </a>
-        {%- endif %}
-        {%- if site.redes.bluesky and site.redes.bluesky != "" %}
-        <a class="pie__red" rel="me noopener" href="https://bsky.app/profile/{{ site.redes.bluesky }}">
-          <span>Bluesky</span><span aria-hidden="true">↗</span>
-        </a>
-        {%- endif %}
-        {%- if site.redes.mastodon and site.redes.mastodon != "" %}
-        <a class="pie__red" rel="me noopener" href="{{ site.redes.mastodon }}">
-          <span>Mastodon</span><span aria-hidden="true">↗</span>
-        </a>
-        {%- endif %}
+        {%- endfor %}
         {%- if site.author.email and site.author.email != "" %}
         <a class="pie__red" href="mailto:{{ site.author.email }}">
           <span>Correo</span><span aria-hidden="true">↗</span>

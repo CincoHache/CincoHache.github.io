@@ -16,6 +16,7 @@ description: Todo lo publicado en Cinco Hache, con buscador y filtros por secci√
       </span>
     </div>
 
+    {%- if _total > 0 %}
     <div class="mandos">
       <div class="buscador">
         <span class="lupa buscador__lupa" aria-hidden="true"></span>
@@ -37,6 +38,7 @@ description: Todo lo publicado en Cinco Hache, con buscador y filtros por secci√
       <span id="aviso-filtro-texto"></span>
       <button type="button" id="quitar-filtros">Quitar filtros ‚úï</button>
     </div>
+    {%- endif %}
   </div>
 
   <div class="archivo-lista">
